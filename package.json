@@ -1,12 +1,25 @@
 {
   "name": "rizon-bi-datawarehouse",
   "version": "1.0.0",
-  "description": "Enterprise Real-Time Data Warehouse & BI Portal - MSc CI7000 Dissertation",
+  "description": "Enterprise Real-Time Data Warehouse & BI Platform - MSc Information Systems CI7000",
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
-    "test": "node runner.js"
+    "test": "npm run test:all",
+    "test:etl": "node tests/test_etl_pipeline.js",
+    "test:streaming": "node tests/test_streaming_harness.js",
+    "test:api": "node tests/test_api_endpoints.js",
+    "test:all": "node tests/test_etl_pipeline.js && node tests/test_streaming_harness.js"
   },
+  "keywords": [
+    "data-warehouse",
+    "business-intelligence",
+    "kimball",
+    "star-schema",
+    "postgresql",
+    "real-time-analytics",
+    "dsr"
+  ],
   "author": "S M HOSNEY ARAFAT RIZON (ID: K2554665)",
   "license": "MIT"
 }
