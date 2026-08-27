@@ -1,0 +1,32 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+ENV/
+.venv/
+build/
+dist/
+*.egg-info/
+*.egg
+
+# Database binaries & temporary files
+*.db
+*.duckdb
+*.sqlite
+*.sqlite3
+*.log
+.env
+.DS_Store
+
+# Temporary extracted presentation
+presentation_extracted/
+*.zip
+
+# Streamlit / IDE
+.streamlit/
+.vscode/
+.idea/

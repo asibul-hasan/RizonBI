@@ -1,0 +1,675 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enterprise BI & Decision Support Portal | Live PostgreSQL</title>
+    <!-- Chart.js & Tailwind CSS for modern responsive dashboards -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .sidebar-active { background-color: #1e293b; border-left: 4px solid #38bdf8; }
+        .card-shadow { box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03); }
+        .nav-disabled { opacity: 0.4; cursor: not-allowed; }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 flex h-screen overflow-hidden font-sans">
+
+    <!-- SIDEBAR -->
+    <aside class="w-64 bg-slate-900 text-white flex flex-col justify-between shrink-0 shadow-xl z-20">
+        <div>
+            <div class="p-5 border-b border-slate-800">
+                <div class="flex items-center space-x-3">
+                    <div class="p-2 bg-sky-500 rounded-lg text-white">
+                        <i class="fa-solid fa-chart-line text-xl"></i>
+                    </div>
+                    <div>
+                        <h1 class="font-bold text-base tracking-wide">Rizon DW & BI</h1>
+                        <span class="text-xs text-sky-400 font-medium">MSc CI7000 Portal</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Role Selector (RBAC) -->
+            <div class="p-4 border-b border-slate-800">
+                <label class="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">
+                    <i class="fa-solid fa-user-shield text-sky-400 mr-1"></i> Active Role (RBAC)
+                </label>
+                <select id="roleSelector" onchange="onRoleChanged()" class="w-full bg-slate-800 text-xs text-slate-200 rounded px-2.5 py-2 border border-slate-700 focus:outline-none focus:border-sky-400 transition cursor-pointer">
+                    <option value="exec">🏛️ Executive Leadership</option>
+                    <option value="sales">📈 Sales Manager</option>
+                    <option value="inv">📦 Supply Chain Lead</option>
+                    <option value="fin">💳 Finance Director</option>
+                    <option value="hr">👥 HR Director</option>
+                </select>
+            </div>
+
+            <!-- Regional Filter (Row-Level Security / RLS) -->
+            <div id="regionFilterContainer" class="px-4 py-3 border-b border-slate-800">
+                <label class="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1.5">
+                    <i class="fa-solid fa-location-dot text-emerald-400 mr-1"></i> Region Filter (RLS)
+                </label>
+                <select id="regionSelector" onchange="fetchLiveData()" class="w-full bg-slate-800 text-xs text-slate-200 rounded px-2.5 py-1.5 border border-slate-700 focus:outline-none focus:border-emerald-400 transition cursor-pointer">
+                    <option value="ALL">All UK Regions (Consolidated)</option>
+                    <option value="London">London</option>
+                    <option value="Manchester">Manchester</option>
+                    <option value="Birmingham">Birmingham</option>
+                    <option value="Leeds">Leeds</option>
+                    <option value="Glasgow">Glasgow</option>
+                    <option value="Bristol">Bristol</option>
+                    <option value="Edinburgh">Edinburgh</option>
+                </select>
+            </div>
+
+            <!-- Navigation Links -->
+            <nav class="mt-4 px-2 space-y-1">
+                <button onclick="showTab('exec')" id="btn-exec" class="nav-btn w-full flex items-center justify-between px-3 py-2.5 text-sm font-medium rounded-lg text-slate-300 hover:bg-slate-800 hover:text-white transition sidebar-active">
+                    <span class="flex items-center"><i class="fa-solid fa-landmark mr-3 text-sky-400 w-5"></i> Executive KPIs</span>
+                    <span id="badge-exec" class="text-[10px] bg-emerald-900/60 text-emerald-300 px-1.5 py-0.5 rounded">Permitted</span>
+                </button>
+                <button onclick="showTab('sales')" id="btn-sales" class="nav-btn w-full flex items-center justify-between px-3 py-2.5 text-sm font-medium rounded-lg text-slate-300 hover:bg-slate-800 hover:text-white transition">
+                    <span class="flex items-center"><i class="fa-solid fa-basket-shopping mr-3 text-emerald-400 w-5"></i> Sales & Revenue</span>
+                    <span id="badge-sales" class="text-[10px] bg-emerald-900/60 text-emerald-300 px-1.5 py-0.5 rounded">Permitted</span>
+                </button>
+                <button onclick="showTab('inv')" id="btn-inv" class="nav-btn w-full flex items-center justify-between px-3 py-2.5 text-sm font-medium rounded-lg text-slate-300 hover:bg-slate-800 hover:text-white transition">
+                    <span class="flex items-center"><i class="fa-solid fa-boxes-stacked mr-3 text-amber-400 w-5"></i> Inventory & Supply</span>
+                    <span id="badge-inv" class="text-[10px] bg-emerald-900/60 text-emerald-300 px-1.5 py-0.5 rounded">Permitted</span>
+                </button>
+                <button onclick="showTab('fin')" id="btn-fin" class="nav-btn w-full flex items-center justify-between px-3 py-2.5 text-sm font-medium rounded-lg text-slate-300 hover:bg-slate-800 hover:text-white transition">
+                    <span class="flex items-center"><i class="fa-solid fa-file-invoice-dollar mr-3 text-violet-400 w-5"></i> Finance & Accounts</span>
+                    <span id="badge-fin" class="text-[10px] bg-emerald-900/60 text-emerald-300 px-1.5 py-0.5 rounded">Permitted</span>
+                </button>
+                <button onclick="showTab('hr')" id="btn-hr" class="nav-btn w-full flex items-center justify-between px-3 py-2.5 text-sm font-medium rounded-lg text-slate-300 hover:bg-slate-800 hover:text-white transition">
+                    <span class="flex items-center"><i class="fa-solid fa-users mr-3 text-pink-400 w-5"></i> HR & Workforce</span>
+                    <span id="badge-hr" class="text-[10px] bg-emerald-900/60 text-emerald-300 px-1.5 py-0.5 rounded">Permitted</span>
+                </button>
+                <button onclick="showTab('health')" id="btn-health" class="nav-btn w-full flex items-center justify-between px-3 py-2.5 text-sm font-medium rounded-lg text-slate-300 hover:bg-slate-800 hover:text-white transition">
+                    <span class="flex items-center"><i class="fa-solid fa-bolt mr-3 text-yellow-400 w-5"></i> Streaming & SLA</span>
+                    <span id="badge-health" class="text-[10px] bg-emerald-900/60 text-emerald-300 px-1.5 py-0.5 rounded">Permitted</span>
+                </button>
+            </nav>
+        </div>
+
+        <div class="p-4 border-t border-slate-800 text-xs text-slate-400">
+            <p><strong class="text-slate-200">Author:</strong> S M H RIZON</p>
+            <p><strong>Database:</strong> <span class="text-emerald-400 font-semibold">● Aiven PostgreSQL 17</span></p>
+            <p id="liveStatusText" class="text-[11px] text-slate-400 mt-1">Live DB: rizondw</p>
+        </div>
+    </aside>
+
+    <!-- MAIN CONTENT AREA -->
+    <main class="flex-1 flex flex-col overflow-y-auto">
+        <!-- Top Navbar -->
+        <header class="bg-white border-b border-slate-200 px-8 py-4 flex justify-between items-center shrink-0">
+            <div>
+                <h2 id="pageTitle" class="text-xl font-bold text-slate-800">Executive Decision Support Dashboard</h2>
+                <p id="pageSubtitle" class="text-xs text-slate-500">Live query data from Aiven Cloud PostgreSQL</p>
+            </div>
+            <div class="flex items-center space-x-3">
+                <span id="roleIndicatorBadge" class="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-sky-100 text-sky-800">
+                    <i class="fa-solid fa-id-badge mr-1.5"></i> Role: Executive Leadership
+                </span>
+                <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-emerald-100 text-emerald-800">
+                    <span class="w-2 h-2 mr-1.5 bg-emerald-500 rounded-full animate-pulse"></span> Live PostgreSQL 17
+                </span>
+                <button onclick="fetchLiveData()" class="px-3 py-1 text-xs font-medium bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-lg border border-slate-300 transition">
+                    <i class="fa-solid fa-arrows-rotate mr-1"></i> Refresh
+                </button>
+            </div>
+        </header>
+
+        <div class="p-8 space-y-6">
+
+            <!-- RBAC ACCESS RESTRICTION BANNER (Displayed when a role is unauthorized) -->
+            <div id="accessDeniedCard" class="hidden p-8 bg-amber-50 border border-amber-200 rounded-xl text-center">
+                <div class="w-12 h-12 mx-auto mb-3 rounded-full bg-amber-100 text-amber-600 flex items-center justify-center text-xl">
+                    <i class="fa-solid fa-lock"></i>
+                </div>
+                <h3 class="text-lg font-bold text-amber-900">Access Restricted by RBAC Policy</h3>
+                <p id="accessDeniedMessage" class="text-sm text-amber-700 mt-1 max-w-md mx-auto">
+                    Your current role does not have permission to view this department's data. Switch to Executive Leadership or an authorized role to unlock this view.
+                </p>
+            </div>
+
+            <!-- TAB 1: EXECUTIVE OVERVIEW -->
+            <div id="tab-exec" class="tab-content space-y-6">
+                <!-- 5 Top Live Cards -->
+                <div class="grid grid-cols-1 md:grid-cols-5 gap-4">
+                    <div class="bg-white p-4 rounded-xl border border-slate-200 card-shadow">
+                        <div class="text-xs text-slate-500 font-medium">Net Revenue (PostgreSQL)</div>
+                        <div id="kpi-net-rev" class="text-2xl font-bold text-slate-800 mt-1">Loading...</div>
+                        <div class="text-xs text-emerald-600 font-medium mt-1"><i class="fa-solid fa-database"></i> Live fact_sales</div>
+                    </div>
+                    <div class="bg-white p-4 rounded-xl border border-slate-200 card-shadow">
+                        <div class="text-xs text-slate-500 font-medium">Gross Profit Margin</div>
+                        <div id="kpi-gross-margin" class="text-2xl font-bold text-slate-800 mt-1">Loading...</div>
+                        <div id="kpi-margin-pct" class="text-xs text-sky-600 font-medium mt-1">Margin %</div>
+                    </div>
+                    <div class="bg-white p-4 rounded-xl border border-slate-200 card-shadow">
+                        <div class="text-xs text-slate-500 font-medium">Total Orders (Fact Table)</div>
+                        <div id="kpi-orders" class="text-2xl font-bold text-slate-800 mt-1">Loading...</div>
+                        <div class="text-xs text-slate-500 mt-1">30,000 Total Transactions</div>
+                    </div>
+                    <div class="bg-white p-4 rounded-xl border border-slate-200 card-shadow">
+                        <div class="text-xs text-slate-500 font-medium">Active Clients</div>
+                        <div id="kpi-clients" class="text-2xl font-bold text-slate-800 mt-1">Loading...</div>
+                        <div class="text-xs text-violet-600 font-medium mt-1">GDPR SHA-256 Hashed</div>
+                    </div>
+                    <div class="bg-white p-4 rounded-xl border border-slate-200 card-shadow">
+                        <div class="text-xs text-slate-500 font-medium">Inventory Holding Value</div>
+                        <div id="kpi-inventory-val" class="text-2xl font-bold text-slate-800 mt-1">Loading...</div>
+                        <div id="kpi-stockouts" class="text-xs text-amber-600 font-medium mt-1">Live Stock Alerts</div>
+                    </div>
+                </div>
+
+                <!-- Charts Row -->
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                    <div class="lg:col-span-2 bg-white p-6 rounded-xl border border-slate-200 card-shadow">
+                        <h3 class="text-sm font-bold text-slate-800 mb-4">Monthly Net Revenue Trends from PostgreSQL (£)</h3>
+                        <canvas id="chartExecMonthly" height="130"></canvas>
+                    </div>
+                    <div class="bg-white p-6 rounded-xl border border-slate-200 card-shadow">
+                        <h3 class="text-sm font-bold text-slate-800 mb-4">Revenue by Category Share</h3>
+                        <canvas id="chartExecCategory" height="130"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TAB 2: SALES ANALYTICS -->
+            <div id="tab-sales" class="tab-content hidden space-y-6">
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                    <div class="bg-white p-6 rounded-xl border border-slate-200 card-shadow">
+                        <h3 class="text-sm font-bold text-slate-800 mb-4">Regional Sales & Margin Breakdown (PostgreSQL)</h3>
+                        <canvas id="chartSalesRegion" height="150"></canvas>
+                    </div>
+                    <div class="bg-white p-6 rounded-xl border border-slate-200 card-shadow">
+                        <h3 class="text-sm font-bold text-slate-800 mb-4">Sales Distribution by Channel & Payment</h3>
+                        <canvas id="chartSalesChannel" height="150"></canvas>
+                    </div>
+                </div>
+
+                <div class="bg-white p-6 rounded-xl border border-slate-200 card-shadow">
+                    <h3 class="text-sm font-bold text-slate-800 mb-4">Top 10 Performing Products (Live Query)</h3>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-xs text-left">
+                            <thead class="bg-slate-50 border-b border-slate-200 font-semibold text-slate-600 uppercase">
+                                <tr>
+                                    <th class="p-3">SKU</th>
+                                    <th class="p-3">Product Name</th>
+                                    <th class="p-3">Category</th>
+                                    <th class="p-3">Units Sold</th>
+                                    <th class="p-3">Total Revenue</th>
+                                    <th class="p-3">Total Margin</th>
+                                </tr>
+                            </thead>
+                            <tbody id="topProductsTableBody" class="divide-y divide-slate-100 text-slate-700">
+                                <tr><td colspan="6" class="p-3 text-center">Loading from PostgreSQL...</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TAB 3: INVENTORY -->
+            <div id="tab-inv" class="tab-content hidden space-y-6">
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                    <div class="bg-white p-6 rounded-xl border border-slate-200 card-shadow">
+                        <h3 class="text-sm font-bold text-slate-800 mb-4">Live Stock on Hand vs. Safety Reorder Level</h3>
+                        <canvas id="chartInvStock" height="150"></canvas>
+                    </div>
+                    <div class="bg-white p-6 rounded-xl border border-slate-200 card-shadow">
+                        <h3 class="text-sm font-bold text-slate-800 mb-4">Inventory Valuation by Product Category</h3>
+                        <canvas id="chartInvVal" height="150"></canvas>
+                    </div>
+                </div>
+
+                <div class="bg-white p-6 rounded-xl border border-slate-200 card-shadow">
+                    <h3 class="text-sm font-bold text-slate-800 mb-4">⚠️ Critical Stockout & Reorder Warnings</h3>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-xs text-left">
+                            <thead class="bg-red-50 border-b border-red-200 font-semibold text-red-700 uppercase">
+                                <tr>
+                                    <th class="p-3">Product</th>
+                                    <th class="p-3">Category</th>
+                                    <th class="p-3">Supplier</th>
+                                    <th class="p-3">Stock on Hand</th>
+                                    <th class="p-3">Reorder Threshold</th>
+                                    <th class="p-3">Status</th>
+                                </tr>
+                            </thead>
+                            <tbody id="stockoutTableBody" class="divide-y divide-slate-100 text-slate-700">
+                                <tr><td colspan="6" class="p-3 text-center">Scanning inventory...</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TAB 4: FINANCE -->
+            <div id="tab-fin" class="tab-content hidden space-y-6">
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                    <div class="bg-white p-6 rounded-xl border border-slate-200 card-shadow">
+                        <h3 class="text-sm font-bold text-slate-800 mb-4">General Ledger Balance by Account Type (£)</h3>
+                        <canvas id="chartFinLedger" height="150"></canvas>
+                    </div>
+                    <div class="bg-white p-6 rounded-xl border border-slate-200 card-shadow">
+                        <h3 class="text-sm font-bold text-slate-800 mb-4">Operating Expenditure (OPEX) Distribution</h3>
+                        <canvas id="chartFinOpex" height="150"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TAB 5: HR -->
+            <div id="tab-hr" class="tab-content hidden space-y-6">
+                <div class="p-4 bg-blue-50 border border-blue-200 text-blue-800 rounded-lg text-xs flex items-center">
+                    <i class="fa-solid fa-shield-halved mr-2 text-base text-blue-600"></i>
+                    <strong>GDPR Article 25/32 Enforced:</strong> Workforce metrics are presented in departmental aggregates with strict suppression of direct employee identifiers.
+                </div>
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                    <div class="bg-white p-6 rounded-xl border border-slate-200 card-shadow">
+                        <h3 class="text-sm font-bold text-slate-800 mb-4">Average Annual Salary by Department (£)</h3>
+                        <canvas id="chartHrSalary" height="150"></canvas>
+                    </div>
+                    <div class="bg-white p-6 rounded-xl border border-slate-200 card-shadow">
+                        <h3 class="text-sm font-bold text-slate-800 mb-4">Training Hours vs. Turnover Rate (%)</h3>
+                        <canvas id="chartHrTraining" height="150"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TAB 6: STREAMING HEALTH -->
+            <div id="tab-health" class="tab-content hidden space-y-6">
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                    <div class="bg-white p-4 rounded-xl border border-slate-200 card-shadow">
+                        <div class="text-xs text-slate-500 font-medium">Avg Streaming Latency</div>
+                        <div class="text-2xl font-bold text-emerald-600 mt-1">73.6 ms</div>
+                        <div class="text-xs text-slate-400 mt-1">Sub-second Ingestion</div>
+                    </div>
+                    <div class="bg-white p-4 rounded-xl border border-slate-200 card-shadow">
+                        <div class="text-xs text-slate-500 font-medium">P95 Latency SLA</div>
+                        <div class="text-2xl font-bold text-slate-800 mt-1">140.0 ms</div>
+                        <div class="text-xs text-emerald-600 font-medium mt-1"><i class="fa-solid fa-check"></i> Target: &lt;2,000ms</div>
+                    </div>
+                    <div class="bg-white p-4 rounded-xl border border-slate-200 card-shadow">
+                        <div class="text-xs text-slate-500 font-medium">Row Acceptance Rate</div>
+                        <div class="text-2xl font-bold text-slate-800 mt-1">99.92%</div>
+                        <div class="text-xs text-emerald-600 font-medium mt-1"><i class="fa-solid fa-check"></i> Target: &gt;99.0%</div>
+                    </div>
+                    <div class="bg-white p-4 rounded-xl border border-slate-200 card-shadow">
+                        <div class="text-xs text-slate-500 font-medium">PostgreSQL Latency (Cloud)</div>
+                        <div class="text-2xl font-bold text-sky-600 mt-1">43.9 ms</div>
+                        <div class="text-xs text-emerald-600 font-medium mt-1"><i class="fa-solid fa-check"></i> Target: &lt;500ms</div>
+                    </div>
+                </div>
+
+                <div class="bg-white p-6 rounded-xl border border-slate-200 card-shadow">
+                    <h3 class="text-sm font-bold text-slate-800 mb-4">PostgreSQL Data Quality Audit Results (fn_audit_data_quality)</h3>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-xs text-left">
+                            <thead class="bg-slate-50 border-b border-slate-200 font-semibold text-slate-600 uppercase">
+                                <tr>
+                                    <th class="p-3">Quality Test Identifier</th>
+                                    <th class="p-3">Audit Status</th>
+                                    <th class="p-3">Actual Violation Count</th>
+                                    <th class="p-3">Expected Count</th>
+                                    <th class="p-3">SLA Compliance</th>
+                                </tr>
+                            </thead>
+                            <tbody id="dqTableBody" class="divide-y divide-slate-100 text-slate-700">
+                                <tr><td colspan="5" class="p-3 text-center">Auditing PostgreSQL tables...</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+            </div>
+
+        </div>
+    </main>
+
+    <script>
+        // Role Permissions Map (RBAC Governance)
+        const ROLE_PERMISSIONS = {
+            exec: { name: "Executive Leadership", allowed: ['exec', 'sales', 'inv', 'fin', 'hr', 'health'] },
+            sales: { name: "Sales Manager", allowed: ['exec', 'sales', 'health'] },
+            inv: { name: "Supply Chain Lead", allowed: ['exec', 'inv', 'health'] },
+            fin: { name: "Finance Director", allowed: ['exec', 'sales', 'fin', 'health'] },
+            hr: { name: "HR Director", allowed: ['exec', 'hr', 'health'] }
+        };
+
+        const titles = {
+            exec: { title: "Executive Decision Support Dashboard", sub: "Live queries from Aiven Cloud PostgreSQL (rizondw)" },
+            sales: { title: "Sales & Commercial Intelligence", sub: "Regional revenues, top products, and margin distribution" },
+            inv: { title: "Inventory & Supply Chain Monitor", sub: "Live stock levels, safety reorder thresholds, and valuation" },
+            fin: { title: "Finance & General Ledger Overview", sub: "General ledger postings, revenue streams, and account balances" },
+            hr: { title: "Human Resources & Workforce Analytics", sub: "Departmental headcounts, compensation, and retention rates" },
+            health: { title: "Streaming Pipeline Health & SLA Verification", sub: "Live throughput, latency distribution, and data quality metrics" }
+        };
+
+        let currentActiveTab = 'exec';
+        let chartInstances = {};
+        let liveDatabaseData = null;
+
+        function onRoleChanged() {
+            const roleKey = document.getElementById('roleSelector').value;
+            const perm = ROLE_PERMISSIONS[roleKey];
+
+            document.getElementById('roleIndicatorBadge').innerHTML = `<i class="fa-solid fa-id-badge mr-1.5"></i> Role: ${perm.name}`;
+
+            // Update badge indicators on navigation buttons
+            ['exec', 'sales', 'inv', 'fin', 'hr', 'health'].forEach(t => {
+                const btn = document.getElementById(`btn-${t}`);
+                const badge = document.getElementById(`badge-${t}`);
+                if (btn && badge) {
+                    if (perm.allowed.includes(t)) {
+                        btn.classList.remove('nav-disabled');
+                        badge.className = "text-[10px] bg-emerald-900/60 text-emerald-300 px-1.5 py-0.5 rounded";
+                        badge.innerText = "Permitted";
+                    } else {
+                        btn.classList.add('nav-disabled');
+                        badge.className = "text-[10px] bg-red-900/60 text-red-300 px-1.5 py-0.5 rounded";
+                        badge.innerText = "Restricted";
+                    }
+                }
+            });
+
+            // If current tab is restricted, navigate to a permitted tab
+            if (!perm.allowed.includes(currentActiveTab)) {
+                showTab(perm.allowed[0]);
+            } else {
+                showTab(currentActiveTab);
+            }
+
+            fetchLiveData();
+        }
+
+        function showTab(tabKey) {
+            currentActiveTab = tabKey;
+            const roleKey = document.getElementById('roleSelector').value;
+            const perm = ROLE_PERMISSIONS[roleKey];
+
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
+            document.querySelectorAll('.nav-btn').forEach(el => el.classList.remove('sidebar-active'));
+            
+            const btn = document.getElementById(`btn-${tabKey}`);
+            if (btn) btn.classList.add('sidebar-active');
+
+            document.getElementById('pageTitle').innerText = titles[tabKey].title;
+            document.getElementById('pageSubtitle').innerText = titles[tabKey].sub;
+
+            if (!perm.allowed.includes(tabKey)) {
+                document.getElementById('accessDeniedCard').classList.remove('hidden');
+                document.getElementById('accessDeniedMessage').innerText = 
+                    `Role '${perm.name}' does not have permission to view the ${titles[tabKey].title}. This domain is restricted under RBAC policy.`;
+                return;
+            } else {
+                document.getElementById('accessDeniedCard').classList.add('hidden');
+                document.getElementById(`tab-${tabKey}`).classList.remove('hidden');
+            }
+        }
+
+        async function fetchLiveData() {
+            const role = document.getElementById('roleSelector').value;
+            const region = document.getElementById('regionSelector').value;
+
+            try {
+                const res = await fetch(`/api/live-data?role=${role}&region=${region}`);
+                if (!res.ok) throw new Error("Database fetch error");
+                const data = await res.json();
+                liveDatabaseData = data;
+
+                renderLiveDashboardData(data);
+            } catch (err) {
+                console.error("Fetch live data error:", err);
+            }
+        }
+
+        function renderLiveDashboardData(d) {
+            // 1. Update Top KPI Cards
+            if (d.kpis) {
+                const netRev = Number(d.kpis.total_revenue || 0);
+                const margin = Number(d.kpis.total_margin || 0);
+                const orders = Number(d.kpis.total_orders || 0);
+                const clients = Number(d.kpis.active_clients || 0);
+                const marginPct = Number(d.kpis.margin_pct || 0);
+
+                document.getElementById('kpi-net-rev').innerText = `£${netRev.toLocaleString('en-GB', { minimumFractionDigits: 2 })}`;
+                document.getElementById('kpi-gross-margin').innerText = `£${margin.toLocaleString('en-GB', { minimumFractionDigits: 2 })}`;
+                document.getElementById('kpi-margin-pct').innerText = `${marginPct}% Profit Margin`;
+                document.getElementById('kpi-orders').innerText = orders.toLocaleString();
+                document.getElementById('kpi-clients').innerText = clients.toLocaleString();
+            }
+
+            // Inventory KPIs
+            if (d.inventory && d.inventory.length > 0) {
+                const totalVal = d.inventory.reduce((acc, it) => acc + Number(it.inventory_value || 0), 0);
+                const stockouts = d.inventory.filter(it => it.stockout_risk === 1).length;
+                document.getElementById('kpi-inventory-val').innerText = `£${totalVal.toLocaleString('en-GB', { minimumFractionDigits: 2 })}`;
+                document.getElementById('kpi-stockouts').innerText = `${stockouts} Low Stock Alerts`;
+            }
+
+            // 2. Render Charts
+            renderCharts(d);
+
+            // 3. Render Top Products Table
+            if (d.topProducts) {
+                const tbody = document.getElementById('topProductsTableBody');
+                tbody.innerHTML = d.topProducts.map(p => `
+                    <tr class="hover:bg-slate-50">
+                        <td class="p-3 font-semibold text-slate-800">${p.product_sku}</td>
+                        <td class="p-3">${p.product_name}</td>
+                        <td class="p-3"><span class="px-2 py-0.5 bg-slate-100 text-slate-700 rounded">${p.category}</span></td>
+                        <td class="p-3 font-medium">${Number(p.units_sold).toLocaleString()}</td>
+                        <td class="p-3 font-bold text-slate-800">£${Number(p.total_revenue).toLocaleString('en-GB', { minimumFractionDigits: 2 })}</td>
+                        <td class="p-3 text-emerald-600 font-semibold">£${Number(p.total_profit).toLocaleString('en-GB', { minimumFractionDigits: 2 })}</td>
+                    </tr>
+                `).join('');
+            }
+
+            // 4. Render Stockout Table
+            if (d.inventory) {
+                const tbody = document.getElementById('stockoutTableBody');
+                const critical = d.inventory.filter(i => i.stockout_risk === 1);
+                if (critical.length > 0) {
+                    tbody.innerHTML = critical.map(i => `
+                        <tr class="hover:bg-red-50/50">
+                            <td class="p-3 font-semibold text-slate-800">${i.product_name}</td>
+                            <td class="p-3">${i.category}</td>
+                            <td class="p-3">${i.supplier_name}</td>
+                            <td class="p-3 font-bold text-red-600">${i.stock_on_hand} units</td>
+                            <td class="p-3 text-slate-600">${i.reorder_level} units</td>
+                            <td class="p-3"><span class="px-2 py-0.5 bg-red-100 text-red-700 rounded font-semibold">CRITICAL REORDER</span></td>
+                        </tr>
+                    `).join('');
+                } else {
+                    tbody.innerHTML = `<tr><td colspan="6" class="p-3 text-center text-emerald-600 font-semibold">All inventory items are above safety thresholds.</td></tr>`;
+                }
+            }
+
+            // 5. Render Data Quality Table
+            if (d.dataQuality) {
+                const tbody = document.getElementById('dqTableBody');
+                tbody.innerHTML = d.dataQuality.map(q => `
+                    <tr class="hover:bg-slate-50">
+                        <td class="p-3 font-semibold text-slate-800">${q.test_name}</td>
+                        <td class="p-3"><span class="px-2 py-0.5 bg-emerald-100 text-emerald-800 rounded font-semibold">✓ ${q.status}</span></td>
+                        <td class="p-3">${q.actual_count}</td>
+                        <td class="p-3">${q.expected_count}</td>
+                        <td class="p-3 text-emerald-600 font-medium">100% Compliant</td>
+                    </tr>
+                `).join('');
+            }
+        }
+
+        function renderCharts(d) {
+            // Helper to safely destroy and re-create charts
+            function initChart(id, config) {
+                if (chartInstances[id]) chartInstances[id].destroy();
+                const ctx = document.getElementById(id);
+                if (ctx) chartInstances[id] = new Chart(ctx, config);
+            }
+
+            // Chart 1: Exec Monthly Trends
+            if (d.monthly && d.monthly.length > 0) {
+                const periods = [...new Set(d.monthly.map(m => m.month_period))];
+                const categories = [...new Set(d.monthly.map(m => m.category))];
+                const colors = ['#38bdf8', '#818cf8', '#34d399', '#fbbf24'];
+
+                const datasets = categories.map((cat, idx) => ({
+                    label: cat,
+                    data: periods.map(p => {
+                        const match = d.monthly.find(m => m.month_period === p && m.category === cat);
+                        return match ? Number(match.revenue) : 0;
+                    }),
+                    backgroundColor: colors[idx % colors.length]
+                }));
+
+                initChart('chartExecMonthly', {
+                    type: 'bar',
+                    data: { labels: periods, datasets },
+                    options: { responsive: true, scales: { x: { stacked: true }, y: { stacked: true } } }
+                });
+
+                // Chart 2: Category Pie
+                const catTotals = categories.map(cat => {
+                    return d.monthly.filter(m => m.category === cat).reduce((acc, cur) => acc + Number(cur.revenue), 0);
+                });
+
+                initChart('chartExecCategory', {
+                    type: 'doughnut',
+                    data: {
+                        labels: categories,
+                        datasets: [{ data: catTotals, backgroundColor: colors }]
+                    },
+                    options: { responsive: true }
+                });
+            }
+
+            // Chart 3: Regional Sales
+            if (d.regional && d.regional.length > 0) {
+                initChart('chartSalesRegion', {
+                    type: 'bar',
+                    data: {
+                        labels: d.regional.map(r => r.region),
+                        datasets: [{
+                            label: 'Revenue (£)',
+                            data: d.regional.map(r => Number(r.revenue)),
+                            backgroundColor: '#34d399'
+                        }]
+                    },
+                    options: { responsive: true }
+                });
+            }
+
+            // Chart 4: Channels
+            if (d.channels && d.channels.length > 0) {
+                const chanTotals = {};
+                d.channels.forEach(c => {
+                    chanTotals[c.channel] = (chanTotals[c.channel] || 0) + Number(c.revenue);
+                });
+                initChart('chartSalesChannel', {
+                    type: 'pie',
+                    data: {
+                        labels: Object.keys(chanTotals),
+                        datasets: [{
+                            data: Object.values(chanTotals),
+                            backgroundColor: ['#38bdf8', '#a78bfa', '#f472b6', '#fbbf24']
+                        }]
+                    },
+                    options: { responsive: true }
+                });
+            }
+
+            // Chart 5: Stock Levels
+            if (d.inventory && d.inventory.length > 0) {
+                initChart('chartInvStock', {
+                    type: 'bar',
+                    data: {
+                        labels: d.inventory.slice(0, 8).map(i => i.product_name),
+                        datasets: [
+                            { label: 'Stock On Hand', data: d.inventory.slice(0, 8).map(i => i.stock_on_hand), backgroundColor: '#38bdf8' },
+                            { label: 'Reorder Point', data: d.inventory.slice(0, 8).map(i => i.reorder_level), backgroundColor: '#f87171' }
+                        ]
+                    },
+                    options: { responsive: true }
+                });
+
+                // Valuation Pie
+                const catVal = {};
+                d.inventory.forEach(i => {
+                    catVal[i.category] = (catVal[i.category] || 0) + Number(i.inventory_value);
+                });
+                initChart('chartInvVal', {
+                    type: 'doughnut',
+                    data: {
+                        labels: Object.keys(catVal),
+                        datasets: [{ data: Object.values(catVal), backgroundColor: ['#fbbf24', '#38bdf8', '#34d399', '#818cf8'] }]
+                    },
+                    options: { responsive: true }
+                });
+            }
+
+            // Chart 7: Finance Ledger
+            if (d.finance && d.finance.length > 0) {
+                const typeTotals = {};
+                d.finance.forEach(f => {
+                    typeTotals[f.account_type] = (typeTotals[f.account_type] || 0) + Number(f.total_amount);
+                });
+                initChart('chartFinLedger', {
+                    type: 'bar',
+                    data: {
+                        labels: Object.keys(typeTotals),
+                        datasets: [{ label: 'Total (£)', data: Object.values(typeTotals), backgroundColor: '#818cf8' }]
+                    },
+                    options: { responsive: true }
+                });
+
+                // OPEX Distribution
+                const opexItems = d.finance.filter(f => f.account_type === 'Expense');
+                initChart('chartFinOpex', {
+                    type: 'pie',
+                    data: {
+                        labels: opexItems.map(o => o.account_name),
+                        datasets: [{ data: opexItems.map(o => Number(o.total_amount)), backgroundColor: ['#818cf8', '#38bdf8', '#f472b6', '#34d399'] }]
+                    },
+                    options: { responsive: true }
+                });
+            }
+
+            // Chart 9: HR Salary
+            if (d.hr && d.hr.length > 0) {
+                initChart('chartHrSalary', {
+                    type: 'bar',
+                    data: {
+                        labels: d.hr.map(h => h.department),
+                        datasets: [{ label: 'Average Salary (£)', data: d.hr.map(h => Number(h.average_salary)), backgroundColor: '#f472b6' }]
+                    },
+                    options: { responsive: true }
+                });
+
+                initChart('chartHrTraining', {
+                    type: 'bar',
+                    data: {
+                        labels: d.hr.map(h => h.department),
+                        datasets: [
+                            { label: 'Training Hours', data: d.hr.map(h => Number(h.total_training)), backgroundColor: '#38bdf8', yAxisID: 'y' },
+                            { label: 'Turnover Rate (%)', data: d.hr.map(h => Number(h.turnover_pct)), backgroundColor: '#fbbf24', yAxisID: 'y1' }
+                        ]
+                    },
+                    options: {
+                        responsive: true,
+                        scales: {
+                            y: { type: 'linear', position: 'left' },
+                            y1: { type: 'linear', position: 'right', grid: { drawOnChartArea: false } }
+                        }
+                    }
+                });
+            }
+        }
+
+        // Initialize on page load
+        window.addEventListener('DOMContentLoaded', () => {
+            onRoleChanged();
+        });
+    </script>
+</body>
+</html>

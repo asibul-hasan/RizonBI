@@ -1,0 +1,17 @@
+product_id,product_sku,product_name,category,unit_price,unit_cost,reorder_level,lead_time_days
+1,"SKU-CLO-0001","SaaS Enterprise License","Cloud Software",1200,150,42,8
+2,"SKU-CLO-0002","SaaS Pro Seat","Cloud Software",450,50,19,10
+3,"SKU-CLO-0003","Analytics API Add-on","Cloud Software",300,30,21,10
+4,"SKU-CLO-0004","Cloud Storage Tier 1","Cloud Software",150,20,22,10
+5,"SKU-HAR-0005","Edge IoT Gateway","Hardware & Devices",650,380,42,9
+6,"SKU-HAR-0006","Enterprise Router v4","Hardware & Devices",890,520,48,3
+7,"SKU-HAR-0007","Workstation Monitor 4K","Hardware & Devices",320,190,44,11
+8,"SKU-HAR-0008","Secure RFID Scanner","Hardware & Devices",210,110,22,8
+9,"SKU-PRO-0009","Data Migration Consultation","Professional Services",2500,800,32,9
+10,"SKU-PRO-0010","BI Architecture Implementation","Professional Services",4500,1500,17,12
+11,"SKU-PRO-0011","Annual Maintenance SLA","Professional Services",1800,400,20,11
+12,"SKU-PRO-0012","Cybersecurity Audit","Professional Services",3200,1000,26,3
+13,"SKU-OFF-0013","Ergonomic Desk Unit","Office & Infrastructure",420,210,28,12
+14,"SKU-OFF-0014","Server Rack 42U","Office & Infrastructure",1150,680,16,7
+15,"SKU-OFF-0015","UPS Backup Unit 3kVA","Office & Infrastructure",780,430,35,3
+16,"SKU-OFF-0016","Network Patch Cable Box","Office & Infrastructure",65,25,34,13

@@ -1,0 +1,43 @@
+{
+  "evaluation_timestamp": "2026-08-24T13:59:11.084Z",
+  "author": "S M HOSNEY ARAFAT RIZON (ID: K2554665)",
+  "programme": "MSc Information Systems",
+  "module": "CI7000 Project Dissertation",
+  "supervisor": "Dr. Islam Choudhury",
+  "summary": {
+    "total_rows_processed": 43000,
+    "row_acceptance_rate_pct": 99.92,
+    "streaming_p95_latency_ms": 140,
+    "query_overall_p95_ms": 22.42,
+    "objective_o2_met": true,
+    "objective_o3_met": true,
+    "objective_o4_met": true,
+    "objective_o5_met": true
+  },
+  "query_benchmarks": {
+    "Q1_Executive_Revenue_Rollup": {
+      "avg_ms": 18.21,
+      "p50_ms": 17.9,
+      "p95_ms": 29.19,
+      "sla_met": true
+    },
+    "Q2_Regional_Category_DrillDown": {
+      "avg_ms": 17.19,
+      "p50_ms": 16.66,
+      "p95_ms": 19.55,
+      "sla_met": true
+    },
+    "Q3_Inventory_Stockout_Risk_Scan": {
+      "avg_ms": 0.11,
+      "p50_ms": 0.09,
+      "p95_ms": 0.15,
+      "sla_met": true
+    },
+    "Q4_Finance_Income_Statement": {
+      "avg_ms": 1.62,
+      "p50_ms": 1.59,
+      "p95_ms": 2.23,
+      "sla_met": true
+    }
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "name": "rizon-bi-datawarehouse",
+  "version": "1.0.0",
+  "description": "Enterprise Real-Time Data Warehouse & BI Portal - MSc CI7000 Dissertation",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "test": "node runner.js"
+  },
+  "author": "S M HOSNEY ARAFAT RIZON (ID: K2554665)",
+  "license": "MIT"
+}

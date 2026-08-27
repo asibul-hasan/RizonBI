@@ -1,0 +1,76 @@
+version: '3.8'
+
+services:
+  # 1. Relational Staging & Serving Data Warehouse
+  postgres:
+    image: postgres:16-alpine
+    container_name: rizon_postgres_dw
+    environment:
+      POSTGRES_DB: rizon_dw
+      POSTGRES_USER: dw_admin
+      POSTGRES_PASSWORD: dw_secure_password_2026
+    ports:
+      - "5432:5432"
+    volumes:
+      - pg_data:/var/lib/postgresql/data
+      - ./warehouse/schema.sql:/docker-entrypoint-initdb.d/init.sql
+    networks:
+      - dw_network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U dw_admin -d rizon_dw"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # 2. Apache Kafka Broker (KRaft mode - no zookeeper needed for simplicity)
+  kafka:
+    image: confluentinc/cp-kafka:7.5.0
+    container_name: rizon_kafka
+    ports:
+      - "9092:9092"
+      - "29092:29092"
+    environment:
+      KAFKA_NODE_ID: 1
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: 'CONTROLLER:PLAINTEXT,PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT'
+      KAFKA_ADVERTISED_LISTENERS: 'PLAINTEXT://kafka:29092,PLAINTEXT_HOST://localhost:9092'
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+      KAFKA_GROUP_INITIAL_REBALANCE_DELAY_MS: 0
+      KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
+      KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
+      KAFKA_PROCESS_ROLES: 'broker,controller'
+      KAFKA_CONTROLLER_QUORUM_VOTERS: '1@kafka:29093'
+      KAFKA_LISTENERS: 'PLAINTEXT://0.0.0.0:29092,CONTROLLER://0.0.0.0:29093,PLAINTEXT_HOST://0.0.0.0:9092'
+      KAFKA_INTER_BROKER_LISTENER_NAME: 'PLAINTEXT'
+      KAFKA_CONTROLLER_LISTENER_NAMES: 'CONTROLLER'
+      KAFKA_LOG_DIRS: '/tmp/kraft-combined-logs'
+      CLUSTER_ID: 'MkU3OEVBNTcwNTJENDM2Qk'
+    networks:
+      - dw_network
+
+  # 3. Interactive Streamlit BI Application
+  bi_dashboard:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: rizon_bi_dashboard
+    ports:
+      - "8501:8501"
+    environment:
+      - DB_HOST=postgres
+      - DB_PORT=5432
+      - DB_NAME=rizon_dw
+      - DB_USER=dw_admin
+      - DB_PASSWORD=dw_secure_password_2026
+      - KAFKA_BOOTSTRAP_SERVERS=kafka:29092
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - dw_network
+
+networks:
+  dw_network:
+    driver: bridge
+
+volumes:
+  pg_data:

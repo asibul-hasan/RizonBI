@@ -1,0 +1,121 @@
+employee_id,employee_code,masked_name,department,role,salary,hire_date,performance_score,is_active
+1,"EMP-0001","Staff_79de14f80160d33e","Finance & Legal","Specialist",49274,"2024-03-01",4.2,1
+2,"EMP-0002","Staff_2d5eb8522e7929b3","Operations & Supply","Specialist",42750,"2024-03-01",3.6,1
+3,"EMP-0003","Staff_fe511a359ea07620","Operations & Supply","Specialist",39711,"2024-03-01",3.6,1
+4,"EMP-0004","Staff_bd15d9fda2d5bf48","Finance & Legal","Specialist",66268,"2024-03-01",4.8,1
+5,"EMP-0005","Staff_eee36ea6b7001326","Finance & Legal","Specialist",68731,"2024-03-01",4,1
+6,"EMP-0006","Staff_d825d3bac7cb5450","Engineering & IT","Specialist",44687,"2024-03-01",4.1,1
+7,"EMP-0007","Staff_f5b20d624cd23952","Human Resources","Specialist",41468,"2024-03-01",4.7,1
+8,"EMP-0008","Staff_12bf617ac96de160","Human Resources","Specialist",52225,"2024-03-01",4,0
+9,"EMP-0009","Staff_cf5ceb67b8ae8a21","Sales & Marketing","Specialist",53888,"2024-03-01",3.1,1
+10,"EMP-0010","Staff_0a1a8588b62642c6","Sales & Marketing","Specialist",52282,"2024-03-01",3.2,1
+11,"EMP-0011","Staff_840d8fd2498032b3","Human Resources","Specialist",57258,"2024-03-01",4.6,1
+12,"EMP-0012","Staff_a437736994674ca8","Operations & Supply","Specialist",61004,"2024-03-01",4.8,1
+13,"EMP-0013","Staff_edf7888d4f45ea3f","Sales & Marketing","Specialist",37281,"2024-03-01",3.9,1
+14,"EMP-0014","Staff_b87cf665d941ccf3","Sales & Marketing","Specialist",61684,"2024-03-01",3.2,1
+15,"EMP-0015","Staff_c40eff9b13fc8970","Sales & Marketing","Specialist",51233,"2024-03-01",4.3,1
+16,"EMP-0016","Staff_3a85b7269ce6e511","Operations & Supply","Specialist",59467,"2024-03-01",3.8,1
+17,"EMP-0017","Staff_f2efe1dfb98d0752","Human Resources","Specialist",37335,"2024-03-01",4.3,1
+18,"EMP-0018","Staff_fce87acc98abd1a2","Finance & Legal","Specialist",60679,"2024-03-01",3,1
+19,"EMP-0019","Staff_067a5a198c6b2330","Sales & Marketing","Specialist",69284,"2024-03-01",4.2,1
+20,"EMP-0020","Staff_b5f3127802d08512","Operations & Supply","Specialist",57577,"2024-03-01",4.1,1
+21,"EMP-0021","Staff_833a807182f547ec","Engineering & IT","Specialist",42954,"2024-03-01",3.9,1
+22,"EMP-0022","Staff_0af790794e3011e3","Engineering & IT","Specialist",39266,"2024-03-01",3.5,1
+23,"EMP-0023","Staff_1c39b51eb72e588e","Engineering & IT","Specialist",47937,"2024-03-01",3.4,1
+24,"EMP-0024","Staff_a39571c6e85ebbae","Operations & Supply","Specialist",47433,"2024-03-01",3.9,0
+25,"EMP-0025","Staff_2285edd4c3c5355b","Human Resources","Specialist",41765,"2024-03-01",3.5,1
+26,"EMP-0026","Staff_3c4f58f2c3b66302","Finance & Legal","Specialist",47564,"2024-03-01",4.9,1
+27,"EMP-0027","Staff_00aad5ea8596aabc","Operations & Supply","Specialist",62932,"2024-03-01",3.3,1
+28,"EMP-0028","Staff_5d9a52bce2da6e9e","Operations & Supply","Specialist",50613,"2024-03-01",4.7,1
+29,"EMP-0029","Staff_48ff7669a08886a8","Operations & Supply","Specialist",53738,"2024-03-01",3.9,0
+30,"EMP-0030","Staff_2487126802bd5850","Engineering & IT","Specialist",58839,"2024-03-01",4.2,1
+31,"EMP-0031","Staff_c6649700190b7baa","Finance & Legal","Specialist",60423,"2024-03-01",3.7,1
+32,"EMP-0032","Staff_8c5466a27ce7f64b","Human Resources","Specialist",43690,"2024-03-01",4,1
+33,"EMP-0033","Staff_7587acae99fddc7d","Finance & Legal","Specialist",39287,"2024-03-01",4.5,1
+34,"EMP-0034","Staff_e4dc568c8e8ccdaf","Operations & Supply","Specialist",32813,"2024-03-01",4.8,1
+35,"EMP-0035","Staff_82550cc604df736e","Sales & Marketing","Specialist",60276,"2024-03-01",4.8,1
+36,"EMP-0036","Staff_6c974f54f3b43dfb","Engineering & IT","Specialist",63354,"2024-03-01",3.2,1
+37,"EMP-0037","Staff_ea594ea02335ab4f","Engineering & IT","Specialist",43012,"2024-03-01",3.9,1
+38,"EMP-0038","Staff_0f6e86ce407be432","Finance & Legal","Specialist",55350,"2024-03-01",4.8,1
+39,"EMP-0039","Staff_638d075f1f5515da","Engineering & IT","Specialist",30136,"2024-03-01",4.1,1
+40,"EMP-0040","Staff_20b63695cc042dfb","Sales & Marketing","Specialist",46639,"2024-03-01",3.2,1
+41,"EMP-0041","Staff_0665923f1c31088f","Engineering & IT","Specialist",58678,"2024-03-01",5,1
+42,"EMP-0042","Staff_293d176fa6621225","Operations & Supply","Specialist",57651,"2024-03-01",4.9,1
+43,"EMP-0043","Staff_dde5d365599ec38a","Operations & Supply","Specialist",30349,"2024-03-01",4.7,1
+44,"EMP-0044","Staff_e72a1d70bcbbc711","Engineering & IT","Specialist",49840,"2024-03-01",3.6,1
+45,"EMP-0045","Staff_bb4c3e0a331f23a7","Finance & Legal","Specialist",52387,"2024-03-01",4.1,0
+46,"EMP-0046","Staff_6f05dc9890e34d15","Engineering & IT","Specialist",32895,"2024-03-01",3.8,1
+47,"EMP-0047","Staff_f704ce2154a98ec3","Sales & Marketing","Specialist",69805,"2024-03-01",4.9,1
+48,"EMP-0048","Staff_b5814d655cb8ef05","Finance & Legal","Specialist",40712,"2024-03-01",3.3,1
+49,"EMP-0049","Staff_ebccf2814358f4ff","Human Resources","Specialist",58927,"2024-03-01",4.9,1
+50,"EMP-0050","Staff_1c4d2978f75603cd","Engineering & IT","Specialist",41957,"2024-03-01",3.8,1
+51,"EMP-0051","Staff_cee4fddb2a9e0b50","Sales & Marketing","Specialist",35867,"2024-03-01",3.5,1
+52,"EMP-0052","Staff_ef217fe86bfe8a16","Operations & Supply","Specialist",67178,"2024-03-01",4.3,1
+53,"EMP-0053","Staff_ece8dfcf78708df0","Sales & Marketing","Specialist",36615,"2024-03-01",4.2,1
+54,"EMP-0054","Staff_9606c44ef4a91b20","Human Resources","Specialist",47063,"2024-03-01",4.6,1
+55,"EMP-0055","Staff_508382b5573d187c","Human Resources","Specialist",52411,"2024-03-01",3.2,1
+56,"EMP-0056","Staff_493dd2703f79a169","Engineering & IT","Specialist",33504,"2024-03-01",3.1,1
+57,"EMP-0057","Staff_2533238c431be665","Engineering & IT","Specialist",58831,"2024-03-01",4,1
+58,"EMP-0058","Staff_76899b2a7b67a642","Sales & Marketing","Specialist",69919,"2024-03-01",4.9,1
+59,"EMP-0059","Staff_1fc552fd6a48853b","Operations & Supply","Specialist",49249,"2024-03-01",4.9,1
+60,"EMP-0060","Staff_fb684ec45494bd96","Sales & Marketing","Specialist",68399,"2024-03-01",4.5,0
+61,"EMP-0061","Staff_9ff5e1d6f88fbd05","Human Resources","Specialist",53623,"2024-03-01",4,1
+62,"EMP-0062","Staff_1801a7a0e8dddedb","Sales & Marketing","Specialist",56269,"2024-03-01",4.5,1
+63,"EMP-0063","Staff_b01164fd0637e31a","Engineering & IT","Specialist",42987,"2024-03-01",3.2,1
+64,"EMP-0064","Staff_febfdca651b85ded","Operations & Supply","Specialist",55775,"2024-03-01",3.2,1
+65,"EMP-0065","Staff_3a5e5a21e2bcab40","Operations & Supply","Specialist",63277,"2024-03-01",5,1
+66,"EMP-0066","Staff_139079e90cb1cd6a","Sales & Marketing","Specialist",37985,"2024-03-01",4.2,1
+67,"EMP-0067","Staff_c857e8281031120e","Finance & Legal","Specialist",37427,"2024-03-01",4,1
+68,"EMP-0068","Staff_b054e0af6dbc9338","Engineering & IT","Specialist",34652,"2024-03-01",3.3,1
+69,"EMP-0069","Staff_c760120faa4cd9bf","Operations & Supply","Specialist",64336,"2024-03-01",3.8,0
+70,"EMP-0070","Staff_2b4989647683e205","Sales & Marketing","Specialist",61474,"2024-03-01",4.5,1
+71,"EMP-0071","Staff_7d5eb191f5604792","Sales & Marketing","Specialist",53424,"2024-03-01",3.7,1
+72,"EMP-0072","Staff_9d71f4fc88df2f29","Operations & Supply","Specialist",45335,"2024-03-01",4.2,1
+73,"EMP-0073","Staff_de08ba33f11d8a1a","Engineering & IT","Specialist",63401,"2024-03-01",4.6,1
+74,"EMP-0074","Staff_a419da1348f5dcd0","Finance & Legal","Specialist",35214,"2024-03-01",4.9,1
+75,"EMP-0075","Staff_a48a137e31576543","Engineering & IT","Specialist",33153,"2024-03-01",4.9,1
+76,"EMP-0076","Staff_8975ea646d67e526","Operations & Supply","Specialist",52285,"2024-03-01",4.2,1
+77,"EMP-0077","Staff_f6c514f99c86d956","Operations & Supply","Specialist",42778,"2024-03-01",4.9,1
+78,"EMP-0078","Staff_3d1922b1050e5a0f","Operations & Supply","Specialist",41254,"2024-03-01",4.5,1
+79,"EMP-0079","Staff_bf95b5f99f5812d9","Sales & Marketing","Specialist",47005,"2024-03-01",3.2,1
+80,"EMP-0080","Staff_5c09af1c368a0c6e","Sales & Marketing","Specialist",52134,"2024-03-01",5,1
+81,"EMP-0081","Staff_f9d1d2f01dcefaf1","Sales & Marketing","Specialist",51909,"2024-03-01",3.6,1
+82,"EMP-0082","Staff_b18187f89a5780ff","Finance & Legal","Specialist",37011,"2024-03-01",3.6,1
+83,"EMP-0083","Staff_fe68a9bde1159c17","Human Resources","Specialist",59894,"2024-03-01",4.6,1
+84,"EMP-0084","Staff_7ec14f99d45e4546","Finance & Legal","Specialist",53482,"2024-03-01",4.7,0
+85,"EMP-0085","Staff_ee656cdd8d51b118","Human Resources","Specialist",35935,"2024-03-01",4.3,1
+86,"EMP-0086","Staff_59eb693f60591764","Operations & Supply","Specialist",50455,"2024-03-01",4,1
+87,"EMP-0087","Staff_28e9b22627b9c566","Engineering & IT","Specialist",40326,"2024-03-01",3.5,1
+88,"EMP-0088","Staff_7cbb847a380fba1e","Human Resources","Specialist",54175,"2024-03-01",4.1,1
+89,"EMP-0089","Staff_7a12d6d8edf5e70d","Sales & Marketing","Specialist",60885,"2024-03-01",4.4,1
+90,"EMP-0090","Staff_9ed257bed7164794","Engineering & IT","Specialist",46671,"2024-03-01",3.8,0
+91,"EMP-0091","Staff_d6a909cb269053eb","Operations & Supply","Specialist",56921,"2024-03-01",3.2,1
+92,"EMP-0092","Staff_2e29e5cd21f161ac","Operations & Supply","Specialist",44609,"2024-03-01",4.1,1
+93,"EMP-0093","Staff_2d7e1cb4f869b0cc","Finance & Legal","Specialist",55528,"2024-03-01",3.1,1
+94,"EMP-0094","Staff_07a2ddac5c4b3c9d","Human Resources","Specialist",67711,"2024-03-01",4.5,0
+95,"EMP-0095","Staff_60ae99b86d7e4ddc","Operations & Supply","Specialist",65652,"2024-03-01",5,1
+96,"EMP-0096","Staff_ccca49b1e6b168a7","Human Resources","Specialist",34239,"2024-03-01",3.2,1
+97,"EMP-0097","Staff_b6122f599f5aee39","Finance & Legal","Specialist",45720,"2024-03-01",3.1,1
+98,"EMP-0098","Staff_4d202ff502d5d990","Finance & Legal","Specialist",51887,"2024-03-01",3.9,1
+99,"EMP-0099","Staff_190a0ba530d9f46e","Human Resources","Specialist",39079,"2024-03-01",3.9,0
+100,"EMP-0100","Staff_538fd810242fc83a","Engineering & IT","Specialist",51121,"2024-03-01",3.8,1
+101,"EMP-0101","Staff_bf0e894575ab34a9","Engineering & IT","Specialist",43522,"2024-03-01",3.1,1
+102,"EMP-0102","Staff_7dacbc2935fd5b49","Engineering & IT","Specialist",44534,"2024-03-01",4.6,1
+103,"EMP-0103","Staff_bdd3fb8593c92dba","Human Resources","Specialist",33766,"2024-03-01",3.3,1
+104,"EMP-0104","Staff_a95720659aad55fc","Finance & Legal","Specialist",41586,"2024-03-01",3.8,1
+105,"EMP-0105","Staff_57ad076c8a7ca7a0","Engineering & IT","Specialist",60075,"2024-03-01",3.9,1
+106,"EMP-0106","Staff_410896793362dc68","Finance & Legal","Specialist",36125,"2024-03-01",4.1,1
+107,"EMP-0107","Staff_eb60f425cc405295","Operations & Supply","Specialist",30248,"2024-03-01",3.5,1
+108,"EMP-0108","Staff_33f3cbd528f7cb57","Finance & Legal","Specialist",57057,"2024-03-01",3.3,1
+109,"EMP-0109","Staff_da168ae732277aee","Sales & Marketing","Specialist",64302,"2024-03-01",4.1,1
+110,"EMP-0110","Staff_c1d2b675b318df16","Operations & Supply","Specialist",50624,"2024-03-01",4.4,0
+111,"EMP-0111","Staff_4347cbabb022957e","Sales & Marketing","Specialist",38366,"2024-03-01",3.5,0
+112,"EMP-0112","Staff_f2708b18d78cb188","Operations & Supply","Specialist",41759,"2024-03-01",4.3,1
+113,"EMP-0113","Staff_7b436e61011626de","Finance & Legal","Specialist",65304,"2024-03-01",3.4,1
+114,"EMP-0114","Staff_b4c3989a91a9e65a","Engineering & IT","Specialist",43830,"2024-03-01",5,1
+115,"EMP-0115","Staff_ae9c908a0849ca35","Human Resources","Specialist",34995,"2024-03-01",3.1,0
+116,"EMP-0116","Staff_d9ef8619ed7d34cb","Sales & Marketing","Specialist",63806,"2024-03-01",3.5,1
+117,"EMP-0117","Staff_0f70a2a92e748bcd","Sales & Marketing","Specialist",45708,"2024-03-01",4.1,1
+118,"EMP-0118","Staff_73a92feb71db2e9a","Engineering & IT","Specialist",49505,"2024-03-01",3.4,1
+119,"EMP-0119","Staff_92c2a25451d95ebd","Human Resources","Specialist",32544,"2024-03-01",4,1
+120,"EMP-0120","Staff_1047c059f600a87b","Operations & Supply","Specialist",42012,"2024-03-01",4.5,1

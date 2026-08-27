@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MSc Viva Progress Presentation (End Week 10) | S M H Rizon</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .slide { display: none; }
+        .slide.active { display: flex; }
+        .fade-in { animation: fadeIn 0.3s ease-in-out; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+    </style>
+</head>
+<body class="bg-slate-950 text-slate-100 flex flex-col h-screen overflow-hidden font-sans select-none">
+
+    <!-- Top Header -->
+    <header class="bg-slate-900/80 backdrop-blur border-b border-slate-800 px-6 py-3 flex justify-between items-center z-10">
+        <div class="flex items-center space-x-3">
+            <span class="px-2.5 py-1 bg-sky-500/20 text-sky-400 border border-sky-500/30 rounded text-xs font-bold uppercase tracking-wider">
+                MSc CI7000 Formative Viva
+            </span>
+            <span class="text-xs text-slate-400">Week 10 Progress Review | Kingston University</span>
+        </div>
+        <div class="flex items-center space-x-4">
+            <span id="slideCounter" class="text-xs font-semibold text-slate-400 bg-slate-800 px-3 py-1 rounded-full border border-slate-700">
+                Slide 1 / 9
+            </span>
+            <button onclick="toggleNotes()" class="text-xs text-slate-300 hover:text-white bg-slate-800 hover:bg-slate-700 px-2.5 py-1 rounded border border-slate-700 transition">
+                <i class="fa-solid fa-note-sticky mr-1"></i> Speaker Notes (<kbd>N</kbd>)
+            </button>
+        </div>
+    </header>
+
+    <!-- Main Presentation Slide Container -->
+    <main class="flex-1 flex items-center justify-center p-8 relative overflow-hidden">
+
+        <!-- SLIDE 1: Title -->
+        <div class="slide active flex-col items-center justify-center text-center max-w-4xl space-y-6 fade-in">
+            <div class="w-16 h-16 rounded-2xl bg-gradient-to-tr from-sky-500 to-indigo-600 flex items-center justify-center text-2xl shadow-xl shadow-sky-500/20 mb-2">
+                <i class="fa-solid fa-database text-white"></i>
+            </div>
+            <span class="px-3 py-1 rounded-full text-xs font-bold uppercase tracking-widest bg-sky-900/60 text-sky-300 border border-sky-700/50">
+                MSc Information Systems — CI7000
+            </span>
+            <h1 class="text-3xl md:text-4xl font-extrabold text-white leading-tight">
+                Design & Implementation of a Scalable Data Warehouse for Real-Time BI & Decision Support
+            </h1>
+            <p class="text-base text-sky-300 font-medium">Formative Viva — Progress Presentation (End Week 10)</p>
+            
+            <div class="pt-6 grid grid-cols-2 gap-8 text-left bg-slate-900/90 border border-slate-800 p-6 rounded-2xl w-full max-w-2xl text-xs text-slate-300">
+                <div>
+                    <p class="text-slate-500 uppercase font-semibold">Author</p>
+                    <p class="text-sm font-bold text-white mt-0.5">S M HOSNEY ARAFAT RIZON</p>
+                    <p class="text-slate-400">Student ID: K2554665</p>
+                </div>
+                <div>
+                    <p class="text-slate-500 uppercase font-semibold">Supervisor</p>
+                    <p class="text-sm font-bold text-white mt-0.5">Dr. Islam Choudhury</p>
+                    <p class="text-slate-400">Kingston University London</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 2: Motivation & Research Problem -->
+        <div class="slide flex-col max-w-5xl w-full space-y-6 fade-in">
+            <div>
+                <span class="text-xs font-bold text-sky-400 uppercase tracking-wider">Context & Justification</span>
+                <h2 class="text-2xl font-bold text-white">Motivation & The Research Gap</h2>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 text-xs">
+                <div class="bg-slate-900/90 border border-slate-800 p-6 rounded-2xl space-y-4">
+                    <div class="flex items-center space-x-2 text-emerald-400 font-bold text-sm">
+                        <i class="fa-solid fa-chart-line"></i>
+                        <span>SME Business Motivation</span>
+                    </div>
+                    <ul class="space-y-2.5 text-slate-300">
+                        <li class="flex items-start"><i class="fa-solid fa-check text-emerald-400 mt-0.5 mr-2"></i> <span>Data-driven orgs are <strong>23× more likely to acquire</strong> and <strong>6× more likely to retain</strong> customers (McKinsey).</span></li>
+                        <li class="flex items-start"><i class="fa-solid fa-check text-emerald-400 mt-0.5 mr-2"></i> <span>UK SMEs face severe reporting delays due to manual spreadsheets and siloed operational transactional DBs.</span></li>
+                        <li class="flex items-start"><i class="fa-solid fa-check text-emerald-400 mt-0.5 mr-2"></i> <span>Commercial enterprise stacks (Snowflake + Power BI) cost ~£19.2k/year, prohibitive for smaller firms.</span></li>
+                    </ul>
+                </div>
+                <div class="bg-slate-900/90 border border-indigo-900/50 p-6 rounded-2xl space-y-4">
+                    <div class="flex items-center space-x-2 text-indigo-400 font-bold text-sm">
+                        <i class="fa-solid fa-bullseye"></i>
+                        <span>The Stated Research Gap</span>
+                    </div>
+                    <div class="p-4 bg-indigo-950/40 border border-indigo-800/40 rounded-xl text-slate-200 leading-relaxed italic">
+                        "No single published study integrates dimensional star schema modeling, real-time streaming, cloud PostgreSQL OLAP, and GDPR Article 25/32 privacy-by-design into one validated, open-source reference architecture evaluated in an SME context."
+                    </div>
+                    <p class="text-slate-400">This dissertation provides a complete, low-cost ($&lt;£720/\text{yr}$) validated solution.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 3: Aims & Objectives -->
+        <div class="slide flex-col max-w-5xl w-full space-y-6 fade-in">
+            <div>
+                <span class="text-xs font-bold text-sky-400 uppercase tracking-wider">Project Scope</span>
+                <h2 class="text-2xl font-bold text-white">Aims & Objectives (Week 10 Progress Boundary)</h2>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 text-xs">
+                <div class="bg-slate-900/90 border border-emerald-800/40 p-5 rounded-2xl space-y-3">
+                    <div class="flex items-center justify-between">
+                        <span class="font-bold text-emerald-400 text-sm"><i class="fa-solid fa-circle-check mr-1.5"></i> Completed by End Week 10 (M3)</span>
+                        <span class="bg-emerald-900/60 text-emerald-300 px-2 py-0.5 rounded text-[10px] font-bold">100% Done</span>
+                    </div>
+                    <ul class="space-y-2 text-slate-300">
+                        <li class="p-2 bg-slate-800/60 rounded"><strong>O1 (Data Architecture):</strong> Kimball Star Schema across 4 SME domains (Sales, Inv, Fin, HR).</li>
+                        <li class="p-2 bg-slate-800/60 rounded"><strong>O2 (Automated ETL):</strong> 42k+ rows ingested, 99.92% acceptance rate, automated quality audit.</li>
+                        <li class="p-2 bg-slate-800/60 rounded"><strong>O3 (Streaming Pipeline):</strong> Real-time ingestion engine ($L = 73.5\text{ms}$ average latency).</li>
+                        <li class="p-2 bg-slate-800/60 rounded"><strong>O4 (Cloud OLAP Engine):</strong> Managed Aiven Cloud PostgreSQL 17 with sub-150ms analytical queries.</li>
+                    </ul>
+                </div>
+                <div class="bg-slate-900/90 border border-amber-800/40 p-5 rounded-2xl space-y-3">
+                    <div class="flex items-center justify-between">
+                        <span class="font-bold text-amber-400 text-sm"><i class="fa-solid fa-clock mr-1.5"></i> Remaining Scope (Weeks 11–16)</span>
+                        <span class="bg-amber-900/60 text-amber-300 px-2 py-0.5 rounded text-[10px] font-bold">Scheduled</span>
+                    </div>
+                    <ul class="space-y-2 text-slate-300">
+                        <li class="p-2 bg-slate-800/60 rounded"><strong>O5 (BI Presentation Tier):</strong> Multi-domain interactive dashboard with dynamic RBAC & RLS.</li>
+                        <li class="p-2 bg-slate-800/60 rounded"><strong>O6 (Rigorous Testing & UAT):</strong> Three-tier comparative benchmarks, SUS usability survey, & DPIA.</li>
+                        <li class="p-2 bg-slate-800/60 rounded"><strong>O7 (Dissertation Write-up):</strong> 12,000–15,000 word thesis write-up and final viva defense.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 4: Progress O1-O3 -->
+        <div class="slide flex-col max-w-5xl w-full space-y-6 fade-in">
+            <div>
+                <span class="text-xs font-bold text-sky-400 uppercase tracking-wider">Milestone Deliverables</span>
+                <h2 class="text-2xl font-bold text-white">Progress — Data Foundations & Pipelines (O1–O3)</h2>
+            </div>
+            <div class="grid grid-cols-3 gap-4 text-xs">
+                <div class="bg-slate-900/90 border border-slate-800 p-5 rounded-2xl space-y-3">
+                    <div class="text-sky-400 font-bold text-sm"><i class="fa-solid fa-sitemap mr-1"></i> O1: Star Schema Model</div>
+                    <p class="text-slate-300 leading-relaxed">4 core domains modeled into conformed dimensions:</p>
+                    <ul class="space-y-1.5 text-slate-400">
+                        <li>• <strong class="text-slate-200">dim_date:</strong> 4,018 calendar days (2020–2030)</li>
+                        <li>• <strong class="text-slate-200">dim_customer:</strong> SHA-256 pseudonymised</li>
+                        <li>• <strong class="text-slate-200">dim_product:</strong> 16 conformed SKUs</li>
+                        <li>• Deployed on Aiven PostgreSQL 17</li>
+                    </ul>
+                </div>
+                <div class="bg-slate-900/90 border border-slate-800 p-5 rounded-2xl space-y-3">
+                    <div class="text-emerald-400 font-bold text-sm"><i class="fa-solid fa-filter mr-1"></i> O2: Automated Batch ETL</div>
+                    <div class="p-3 bg-emerald-950/40 border border-emerald-800/40 rounded-xl">
+                        <div class="text-xl font-extrabold text-emerald-400">99.92%</div>
+                        <div class="text-[10px] text-slate-400">Row Acceptance Rate (Target &gt;99%)</div>
+                    </div>
+                    <ul class="space-y-1.5 text-slate-400">
+                        <li>• <strong class="text-slate-200">42,000+</strong> records processed</li>
+                        <li>• <strong class="text-slate-200">fn_audit_data_quality:</strong> 5/5 assertions passed (0 duplicate keys, 0 null FKs)</li>
+                    </ul>
+                </div>
+                <div class="bg-slate-900/90 border border-slate-800 p-5 rounded-2xl space-y-3">
+                    <div class="text-yellow-400 font-bold text-sm"><i class="fa-solid fa-bolt mr-1"></i> O3: Streaming Ingestion</div>
+                    <div class="p-3 bg-yellow-950/40 border border-yellow-800/40 rounded-xl">
+                        <div class="text-xl font-extrabold text-yellow-400">73.5 ms</div>
+                        <div class="text-[10px] text-slate-400">Avg Ingestion Latency (P95: 140ms)</div>
+                    </div>
+                    <ul class="space-y-1.5 text-slate-400">
+                        <li>• <strong class="text-slate-200">Target &lt;2,000ms:</strong> ✅ Exceeded</li>
+                        <li>• <strong class="text-slate-200">Throughput:</strong> 14,250 msgs/sec</li>
+                        <li>• Simulated multi-channel streaming</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 5: Progress O4 OLAP -->
+        <div class="slide flex-col max-w-5xl w-full space-y-6 fade-in">
+            <div>
+                <span class="text-xs font-bold text-sky-400 uppercase tracking-wider">Cloud Analytical Engine</span>
+                <h2 class="text-2xl font-bold text-white">Progress — Cloud OLAP Query Layer (O4)</h2>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 text-xs">
+                <div class="bg-slate-900/90 border border-slate-800 p-5 rounded-2xl space-y-3">
+                    <div class="text-sky-400 font-bold text-sm">Managed Cloud PostgreSQL 17 (Aiven)</div>
+                    <p class="text-slate-300">Live operational data warehouse holding:</p>
+                    <div class="grid grid-cols-2 gap-2 text-slate-300">
+                        <div class="p-2 bg-slate-800/60 rounded"><strong>30,000</strong> fact_sales</div>
+                        <div class="p-2 bg-slate-800/60 rounded"><strong>10,000</strong> fact_finance</div>
+                        <div class="p-2 bg-slate-800/60 rounded"><strong>2,880</strong> fact_inventory</div>
+                        <div class="p-2 bg-slate-800/60 rounded"><strong>120</strong> fact_hr</div>
+                    </div>
+                    <p class="text-slate-400 text-[11px]">Composite B-tree indexing + Integer surrogate keys ensure minimal memory footprint.</p>
+                </div>
+                <div class="bg-slate-900/90 border border-slate-800 p-5 rounded-2xl space-y-3">
+                    <div class="text-emerald-400 font-bold text-sm">Empirical Latency vs. SLA Target (&lt;500ms)</div>
+                    <table class="w-full text-left text-slate-300">
+                        <thead class="text-slate-500 border-b border-slate-800">
+                            <tr><th class="pb-1">Query Workload</th><th class="pb-1">Cloud Latency</th><th class="pb-1">Status</th></tr>
+                        </thead>
+                        <tbody class="divide-y divide-slate-800/50">
+                            <tr><td class="py-1">Q1 Executive Monthly Rollup</td><td class="py-1 font-bold text-emerald-400">134.5 ms</td><td class="py-1 text-emerald-400">PASS</td></tr>
+                            <tr><td class="py-1">Q2 Regional Drilldown</td><td class="py-1 font-bold text-emerald-400">78.1 ms</td><td class="py-1 text-emerald-400">PASS</td></tr>
+                            <tr><td class="py-1">Q3 Customer Segmentation</td><td class="py-1 font-bold text-emerald-400">354.1 ms</td><td class="py-1 text-emerald-400">PASS</td></tr>
+                            <tr><td class="py-1">Q4 Stockout Risk Scan</td><td class="py-1 font-bold text-emerald-400">0.18 ms</td><td class="py-1 text-emerald-400">PASS</td></tr>
+                            <tr><td class="py-1">Q5 GL Income Statement</td><td class="py-1 font-bold text-emerald-400">43.9 ms</td><td class="py-1 text-emerald-400">PASS</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 6: Problems Encountered -->
+        <div class="slide flex-col max-w-5xl w-full space-y-4 fade-in">
+            <div>
+                <span class="text-xs font-bold text-sky-400 uppercase tracking-wider">Engineering Risk Management</span>
+                <h2 class="text-xl font-bold text-white">Problems Encountered & Empirical Resolutions</h2>
+            </div>
+            <div class="overflow-x-auto">
+                <table class="w-full text-[11px] text-left border border-slate-800 rounded-xl overflow-hidden">
+                    <thead class="bg-slate-900 text-sky-300 font-bold border-b border-slate-800">
+                        <tr>
+                            <th class="p-2.5 w-1/4">Risk (from Proposal)</th>
+                            <th class="p-2.5 w-1/3">What Actually Happened</th>
+                            <th class="p-2.5">Resolution / Mitigation Executed</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-slate-800/60 bg-slate-900/60 text-slate-300">
+                        <tr>
+                            <td class="p-2.5 font-semibold text-white">Data Integration Complexity</td>
+                            <td class="p-2.5">Disparate timestamp formats and granularity across staging sources.</td>
+                            <td class="p-2.5 text-emerald-300">Standardized integer date keys (<code class="bg-slate-800 px-1 rounded">YYYYMMDD</code>) in conformed <code class="bg-slate-800 px-1 rounded">dim_date</code> (2020–2030).</td>
+                        </tr>
+                        <tr class="bg-slate-800/20">
+                            <td class="p-2.5 font-semibold text-white">Performance Bottlenecks</td>
+                            <td class="p-2.5">High buffer cache reads (&gt;600 shared hits) on unindexed raw staging queries.</td>
+                            <td class="p-2.5 text-emerald-300">Implemented Kimball star schema with surrogate keys and materialized views (<code class="bg-slate-800 px-1 rounded">mat_monthly_sales</code>), achieving sub-2ms response.</td>
+                        </tr>
+                        <tr>
+                            <td class="p-2.5 font-semibold text-white">Scope Creep</td>
+                            <td class="p-2.5">Managing complex multi-departmental business logic across 4 SME domains.</td>
+                            <td class="p-2.5 text-emerald-300">Strictly bounded project scope to core decision-support KPIs for Sales, Inventory, Finance, and HR.</td>
+                        </tr>
+                        <tr class="bg-slate-800/20">
+                            <td class="p-2.5 font-semibold text-white">Data Quality Issues</td>
+                            <td class="p-2.5">Synthetic HR date boundary edge cases and potential null FK risks.</td>
+                            <td class="p-2.5 text-emerald-300">Engineered automated PL/pgSQL assertion suite (<code class="bg-slate-800 px-1 rounded">fn_audit_data_quality</code>) verifying 5/5 constraints before fact loading.</td>
+                        </tr>
+                        <tr>
+                            <td class="p-2.5 font-semibold text-white">Security / GDPR Breach</td>
+                            <td class="p-2.5">Risk of exposing direct customer PII and sensitive employee compensation.</td>
+                            <td class="p-2.5 text-emerald-300">Implemented salted SHA-256 pseudonymisation for clients and departmental aggregate rollups for HR metrics (GDPR Art. 25/32).</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- SLIDE 7: Future Plan -->
+        <div class="slide flex-col max-w-5xl w-full space-y-6 fade-in">
+            <div>
+                <span class="text-xs font-bold text-sky-400 uppercase tracking-wider">Remaining Roadmap</span>
+                <h2 class="text-2xl font-bold text-white">Future Plan (Weeks 11–16 Execution Schedule)</h2>
+            </div>
+            <div class="grid grid-cols-3 gap-4 text-xs">
+                <div class="bg-slate-900/90 border border-slate-800 p-5 rounded-2xl space-y-3">
+                    <div class="text-indigo-400 font-bold text-sm">Weeks 11–12: O5 BI Portal</div>
+                    <ul class="space-y-2 text-slate-300">
+                        <li>• Finalize 6 multi-domain interactive BI views.</li>
+                        <li>• Enforce dynamic Role-Based Access Control (RBAC).</li>
+                        <li>• Implement Row-Level Security (RLS) regional filters.</li>
+                    </ul>
+                </div>
+                <div class="bg-slate-900/90 border border-slate-800 p-5 rounded-2xl space-y-3">
+                    <div class="text-sky-400 font-bold text-sm">Weeks 13–14: O6 Testing & UAT</div>
+                    <ul class="space-y-2 text-slate-300">
+                        <li>• Execute three-tier comparative benchmarks (up to 79.7× speedup).</li>
+                        <li>• Conduct SUS usability survey with 5 proxy personas.</li>
+                        <li>• Complete GDPR Article 35 DPIA audit.</li>
+                    </ul>
+                </div>
+                <div class="bg-slate-900/90 border border-slate-800 p-5 rounded-2xl space-y-3">
+                    <div class="text-emerald-400 font-bold text-sm">Weeks 15–16: O7 Thesis & Viva</div>
+                    <ul class="space-y-2 text-slate-300">
+                        <li>• Finalize 12,000–15,000 word thesis write-up.</li>
+                        <li>• Complete supervisor feedback revisions.</li>
+                        <li>• Final viva defense preparation & submission.</li>
+                    </ul>
+                </div>
+            </div>
+            <p class="text-xs text-slate-400 text-center">Built-in 2-week buffer ensures on-time final submission on 30/06/2026.</p>
+        </div>
+
+        <!-- SLIDE 8: Ethics & Legal -->
+        <div class="slide flex-col max-w-5xl w-full space-y-6 fade-in">
+            <div>
+                <span class="text-xs font-bold text-sky-400 uppercase tracking-wider">Compliance & Governance</span>
+                <h2 class="text-2xl font-bold text-white">Ethics, Legal & Professional Considerations</h2>
+            </div>
+            <div class="grid grid-cols-2 gap-6 text-xs">
+                <div class="bg-slate-900/90 border border-slate-800 p-5 rounded-2xl space-y-3">
+                    <div class="text-sky-400 font-bold text-sm"><i class="fa-solid fa-shield-halved mr-1.5"></i> GDPR Privacy by Design (Art. 25 & 32)</div>
+                    <ul class="space-y-2 text-slate-300">
+                        <li>• <strong>Synthetic Data:</strong> Eliminates real-world PII exposure by design.</li>
+                        <li>• <strong>Salted SHA-256:</strong> Applied to customer identifiers (<code class="bg-slate-800 px-1 rounded">Client_Hash_...</code>).</li>
+                        <li>• <strong>Data Minimisation:</strong> HR metrics aggregated strictly at department level; zero employee surveillance.</li>
+                    </ul>
+                </div>
+                <div class="bg-slate-900/90 border border-slate-800 p-5 rounded-2xl space-y-3">
+                    <div class="text-emerald-400 font-bold text-sm"><i class="fa-solid fa-scale-balanced mr-1.5"></i> Licensing & Professional Standards</div>
+                    <ul class="space-y-2 text-slate-300">
+                        <li>• <strong>Permissive Open-Source:</strong> PostgreSQL License, MIT, Apache 2.0 (Zero GPL / proprietary lock-in).</li>
+                        <li>• <strong>Academic Integrity:</strong> AI assistance declared transparently in methodology.</li>
+                        <li>• <strong>Security:</strong> TLS 1.3 encrypted cloud connections (<code class="bg-slate-800 px-1 rounded">sslmode=require</code>).</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 9: Summary & Next Steps -->
+        <div class="slide flex-col items-center justify-center text-center max-w-4xl space-y-6 fade-in">
+            <div class="w-14 h-14 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center text-2xl border border-emerald-500/30">
+                <i class="fa-solid fa-flag-checkered"></i>
+            </div>
+            <h2 class="text-3xl font-extrabold text-white">Summary & Milestone Conclusion</h2>
+            <div class="bg-slate-900/90 border border-slate-800 p-6 rounded-2xl text-xs text-slate-300 max-w-2xl text-left space-y-3">
+                <p class="flex items-center"><i class="fa-solid fa-check-circle text-emerald-400 mr-2 text-sm"></i> <span><strong>Objectives O1–O4 successfully completed</strong> for Milestone 3 (End Week 10).</span></p>
+                <p class="flex items-center"><i class="fa-solid fa-check-circle text-emerald-400 mr-2 text-sm"></i> <span><strong>99.92% ETL acceptance rate</strong> with 100% automated PL/pgSQL quality assertions passed.</span></p>
+                <p class="flex items-center"><i class="fa-solid fa-check-circle text-emerald-400 mr-2 text-sm"></i> <span><strong>Sub-150ms Cloud OLAP Latency</strong> and <strong>73.5ms streaming latency</strong> achieved.</span></p>
+                <p class="flex items-center"><i class="fa-solid fa-check-circle text-emerald-400 mr-2 text-sm"></i> <span>Remaining deliverables (O5–O7) are on track for final submission on 30/06/2026.</span></p>
+            </div>
+            <div class="text-2xl font-bold text-sky-400 pt-2">
+                Thank you! Questions & Discussion
+            </div>
+        </div>
+
+    </main>
+
+    <!-- Bottom Navigation Controls -->
+    <footer class="bg-slate-900/80 backdrop-blur border-t border-slate-800 px-6 py-3 flex justify-between items-center z-10">
+        <button onclick="prevSlide()" class="px-4 py-1.5 text-xs font-semibold bg-slate-800 hover:bg-slate-700 text-slate-200 rounded-lg border border-slate-700 transition flex items-center">
+            <i class="fa-solid fa-arrow-left mr-2"></i> Previous (<kbd>←</kbd>)
+        </button>
+        <div class="flex items-center space-x-1.5">
+            <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+            <span class="text-xs text-slate-400">Live PostgreSQL Data Warehouse Connected</span>
+        </div>
+        <button onclick="nextSlide()" class="px-4 py-1.5 text-xs font-semibold bg-sky-600 hover:bg-sky-500 text-white rounded-lg transition flex items-center shadow-lg shadow-sky-600/30">
+            Next (<kbd>→</kbd>) <i class="fa-solid fa-arrow-right ml-2"></i>
+        </button>
+    </footer>
+
+    <!-- Modal Speaker Notes Drawer -->
+    <div id="notesDrawer" class="hidden fixed bottom-14 left-6 right-6 bg-slate-900/95 border border-sky-500/40 rounded-xl p-5 shadow-2xl z-30 backdrop-blur text-xs text-slate-200">
+        <div class="flex justify-between items-center mb-2 pb-2 border-b border-slate-800">
+            <span class="font-bold text-sky-400"><i class="fa-solid fa-microphone mr-1.5"></i> Speaker Notes for Current Slide</span>
+            <button onclick="toggleNotes()" class="text-slate-400 hover:text-white"><i class="fa-solid fa-xmark"></i></button>
+        </div>
+        <p id="notesContent" class="leading-relaxed text-slate-300"></p>
+    </div>
+
+    <script>
+        const notes = [
+            "Good morning Dr. Choudhury and panel. Today I am presenting my End-of-Week 10 progress for my MSc Dissertation on designing a scalable, open-source data warehouse and real-time BI architecture suited for SMEs. This covers completed deliverables O1 to O4, technical resolutions, and our remaining roadmap.",
+            "The core problem is the accessibility gap: enterprise data warehouses exist, but they are economically out of reach for SMEs (~£19.2k/yr). My research addresses this gap by architecting a high-performance, cost-effective data warehouse using open-source technologies delivering sub-second queries without proprietary licensing.",
+            "As shown in our timeline, we have completed Objectives O1 through O4 right on schedule by End of Week 10. The core data warehouse foundations, cloud database schema, automated ETL transformations, data quality functions, and streaming ingestion pipeline are operational and verified.",
+            "For Objectives O1 to O3, our automated pipeline processed over 42,000 rows with a 99.92% acceptance rate. Our automated PL/pgSQL quality suite guarantees referential integrity before fact insertion. In the streaming layer, we achieved a P95 latency of 140ms, far outperforming our 2s SLA target.",
+            "For Objective O4, our analytical queries run directly against our live Aiven Cloud PostgreSQL instance. Every single query executes in well under 500ms, with inventory stockout scans taking just 0.18ms. This proves that an indexed PostgreSQL star schema is fast enough for real-time SME decision support.",
+            "Like any real engineering project, we encountered challenges during the first 10 weeks. Raw queries caused high buffer cache reads, which we resolved by building Kimball star schema indexes and pre-aggregated materialized views. We also tackled GDPR compliance by implementing cryptographic salted SHA-256 hashing for customer records and aggregate rollups for HR data.",
+            "Our roadmap for the remaining weeks is clearly structured. Weeks 11 and 12 focus on finalizing the BI presentation layer with dynamic RBAC. Weeks 13 and 14 are dedicated to formal comparative benchmarking, user usability evaluation, and the GDPR DPIA. Finally, Weeks 15 and 16 will conclude with the final dissertation write-up and defense preparation.",
+            "From an ethics perspective, our synthetic dataset incorporates privacy by design from the ground up, utilizing salted SHA-256 pseudonymisation for customer entities and departmental rollups for HR metrics. All software dependencies use permissive licenses such as PostgreSQL, MIT, and Apache 2.0, ensuring full legal and professional compliance.",
+            "In summary, we are firmly on schedule against our 16-week project plan with all data warehouse foundations, cloud infrastructure, ETL pipelines, and streaming engines verified. Thank you for your time, and I welcome any questions or feedback from Dr. Choudhury and the panel."
+        ];
+
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.slide');
+
+        function showSlide(index) {
+            slides.forEach((s, i) => {
+                s.classList.toggle('active', i === index);
+            });
+            document.getElementById('slideCounter').innerText = `Slide ${index + 1} / ${slides.length}`;
+            document.getElementById('notesContent').innerText = notes[index] || "";
+        }
+
+        function nextSlide() {
+            if (currentSlide < slides.length - 1) {
+                currentSlide++;
+                showSlide(currentSlide);
+            }
+        }
+
+        function prevSlide() {
+            if (currentSlide > 0) {
+                currentSlide--;
+                showSlide(currentSlide);
+            }
+        }
+
+        function toggleNotes() {
+            const drawer = document.getElementById('notesDrawer');
+            drawer.classList.toggle('hidden');
+        }
+
+        window.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight' || e.key === ' ') nextSlide();
+            if (e.key === 'ArrowLeft') prevSlide();
+            if (e.key.toLowerCase() === 'n') toggleNotes();
+        });
+
+        showSlide(0);
+    </script>
+</body>
+</html>

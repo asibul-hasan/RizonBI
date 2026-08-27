@@ -1,0 +1,36 @@
+supplier_id,supplier_code,supplier_name,country,rating,payment_terms_days
+1,"SUP-001","Supplier Partner 01 Ltd","Netherlands",4.4,45
+2,"SUP-002","Supplier Partner 02 Ltd","Netherlands",4.1,60
+3,"SUP-003","Supplier Partner 03 Ltd","United Kingdom",4.9,60
+4,"SUP-004","Supplier Partner 04 Ltd","Ireland",4.5,45
+5,"SUP-005","Supplier Partner 05 Ltd","Netherlands",3.8,45
+6,"SUP-006","Supplier Partner 06 Ltd","United Kingdom",4.6,30
+7,"SUP-007","Supplier Partner 07 Ltd","Ireland",3.9,30
+8,"SUP-008","Supplier Partner 08 Ltd","United Kingdom",4.3,45
+9,"SUP-009","Supplier Partner 09 Ltd","Germany",4.8,30
+10,"SUP-010","Supplier Partner 10 Ltd","United Kingdom",4.4,30
+11,"SUP-011","Supplier Partner 11 Ltd","Ireland",4.7,30
+12,"SUP-012","Supplier Partner 12 Ltd","Netherlands",4.5,30
+13,"SUP-013","Supplier Partner 13 Ltd","France",5,30
+14,"SUP-014","Supplier Partner 14 Ltd","United Kingdom",4.5,15
+15,"SUP-015","Supplier Partner 15 Ltd","Germany",4.8,45
+16,"SUP-016","Supplier Partner 16 Ltd","Ireland",4.8,15
+17,"SUP-017","Supplier Partner 17 Ltd","Netherlands",4.5,15
+18,"SUP-018","Supplier Partner 18 Ltd","Ireland",3.9,30
+19,"SUP-019","Supplier Partner 19 Ltd","Ireland",4.9,15
+20,"SUP-020","Supplier Partner 20 Ltd","France",4.9,15
+21,"SUP-021","Supplier Partner 21 Ltd","Netherlands",4.9,60
+22,"SUP-022","Supplier Partner 22 Ltd","Germany",4.1,30
+23,"SUP-023","Supplier Partner 23 Ltd","Netherlands",4.2,45
+24,"SUP-024","Supplier Partner 24 Ltd","Germany",4.2,60
+25,"SUP-025","Supplier Partner 25 Ltd","Ireland",4.9,30
+26,"SUP-026","Supplier Partner 26 Ltd","Netherlands",4.3,30
+27,"SUP-027","Supplier Partner 27 Ltd","Ireland",4.6,15
+28,"SUP-028","Supplier Partner 28 Ltd","United Kingdom",4.5,15
+29,"SUP-029","Supplier Partner 29 Ltd","Germany",4.5,30
+30,"SUP-030","Supplier Partner 30 Ltd","Ireland",4.8,30
+31,"SUP-031","Supplier Partner 31 Ltd","Germany",5,30
+32,"SUP-032","Supplier Partner 32 Ltd","Germany",4.7,45
+33,"SUP-033","Supplier Partner 33 Ltd","France",4.2,60
+34,"SUP-034","Supplier Partner 34 Ltd","France",4.1,45
+35,"SUP-035","Supplier Partner 35 Ltd","Germany",4.1,45

@@ -1,0 +1,8 @@
+.git
+.gitignore
+.env
+*.zip
+*.log
+presentation_extracted/
+__pycache__/
+.venv/
