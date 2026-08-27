@@ -85,6 +85,8 @@ $$ LANGUAGE plpgsql;
 
 -- 4. MATERIALIZED AGGREGATIONS FOR ACCELERATED OLAP SERVING (<50ms)
 -- ==============================================================================
+-- Developer note: Unique index on (year, month_number, category, region) enables
+-- non-blocking 'REFRESH MATERIALIZED VIEW CONCURRENTLY' for zero-downtime serving.
 CREATE MATERIALIZED VIEW IF NOT EXISTS mat_monthly_sales_summary AS
 SELECT 
     d.year,
