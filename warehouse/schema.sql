@@ -242,17 +242,22 @@ CREATE TABLE IF NOT EXISTS fact_hr_workforce (
 
 -- ==============================================================================
 -- 4. PERFORMANCE INDEXES (FOR SUB-SECOND OLAP QUERIES)
+-- Developer note: Added single-column and composite B-Tree indexes to optimize
+-- multi-table join plans and satisfy index-only scans on high-cardinality filters.
 -- ==============================================================================
 CREATE INDEX IF NOT EXISTS idx_fact_sales_date ON fact_sales(date_key);
 CREATE INDEX IF NOT EXISTS idx_fact_sales_cust ON fact_sales(customer_sk);
 CREATE INDEX IF NOT EXISTS idx_fact_sales_prod ON fact_sales(product_sk);
 CREATE INDEX IF NOT EXISTS idx_fact_sales_region ON fact_sales(region);
+CREATE INDEX IF NOT EXISTS idx_fact_sales_date_region ON fact_sales(date_key, region);
 
 CREATE INDEX IF NOT EXISTS idx_fact_inv_date ON fact_inventory(date_key);
 CREATE INDEX IF NOT EXISTS idx_fact_inv_prod ON fact_inventory(product_sk);
+CREATE INDEX IF NOT EXISTS idx_fact_inv_date_prod ON fact_inventory(date_key, product_sk);
 
 CREATE INDEX IF NOT EXISTS idx_fact_fin_date ON fact_financial_transactions(date_key);
 CREATE INDEX IF NOT EXISTS idx_fact_fin_acc ON fact_financial_transactions(account_sk);
+CREATE INDEX IF NOT EXISTS idx_fact_fin_date_acc ON fact_financial_transactions(date_key, account_sk);
 
 CREATE INDEX IF NOT EXISTS idx_fact_hr_date ON fact_hr_workforce(date_key);
 CREATE INDEX IF NOT EXISTS idx_fact_hr_dept ON fact_hr_workforce(department);
