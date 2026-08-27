@@ -501,9 +501,13 @@
         }
 
         function renderCharts(d) {
-            // Helper to safely destroy and re-create charts
+            // Developer note: Explicitly destroy previous Chart.js instances to avoid memory leaks
+            // and canvas redraw collisions during rapid role or filter switches.
             function initChart(id, config) {
-                if (chartInstances[id]) chartInstances[id].destroy();
+                if (chartInstances[id]) {
+                    chartInstances[id].destroy();
+                    delete chartInstances[id];
+                }
                 const ctx = document.getElementById(id);
                 if (ctx) chartInstances[id] = new Chart(ctx, config);
             }
