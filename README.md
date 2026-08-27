@@ -92,7 +92,7 @@ python etl/load_postgres.py
 ### Option B: Execute SQL Directly on Aiven Cloud via `psql`
 ```bash
 # Set connection URI
-$AIVEN_URI="postgres://avnadmin:YOUR_PASSWORD@aidlydbpg-aidlly23-infoaidtech.a.aivencloud.com:12656/rizondw?sslmode=require"
+$AIVEN_URI="postgres://avnadmin:AVNS_DxFVsIyjx9okN5LVt2h@aidlydbpg-aidlly23-infoaidtech.a.aivencloud.com:12656/rizondw?sslmode=require"
 
 # 1. Apply Schema & Views
 psql $AIVEN_URI -f warehouse/schema.sql
@@ -125,7 +125,7 @@ You can host this live BI Data Warehouse platform 24/7 on **Hugging Face Spaces 
 3. **Configure Database Secret (Environment Variable)**:
    * In your Hugging Face Space **Settings** $\rightarrow$ **Variables and secrets** $\rightarrow$ **New secret**:
      * **Name:** `DATABASE_URL`
-     * **Value:** `postgres://avnadmin:YOUR_PASSWORD@aidlydbpg-aidlly23-infoaidtech.a.aivencloud.com:12656/rizondw?sslmode=require`
+     * **Value:** `postgres://avnadmin:AVNS_DxFVsIyjx9okN5LVt2h@aidlydbpg-aidlly23-infoaidtech.a.aivencloud.com:12656/rizondw?sslmode=require`
 4. **Build & Launch**:
    * Hugging Face will automatically build the `Dockerfile`, install `postgresql-client`, expose port `7860`, and serve the live dashboard at `https://huggingface.co/spaces/YOUR_USERNAME/rizon-bi-datawarehouse`!
 

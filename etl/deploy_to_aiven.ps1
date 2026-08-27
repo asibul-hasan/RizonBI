@@ -1,5 +1,5 @@
 # Aiven Cloud PostgreSQL Data Warehouse Ingestion Script
-$AivenUri = if ($env:DATABASE_URL) { $env:DATABASE_URL } else { "postgres://avnadmin:YOUR_PASSWORD@aidlydbpg-aidlly23-infoaidtech.a.aivencloud.com:12656/rizondw?sslmode=require" }
+$AivenUri = if ($env:DATABASE_URL) { $env:DATABASE_URL } else { "postgres://avnadmin:AVNS_DxFVsIyjx9okN5LVt2h@aidlydbpg-aidlly23-infoaidtech.a.aivencloud.com:12656/rizondw?sslmode=require" }
 $PsqlPath = "C:\Program Files\PostgreSQL\17\bin\psql.exe"
 if (-not (Test-Path $PsqlPath)) { $PsqlPath = "psql" }
 

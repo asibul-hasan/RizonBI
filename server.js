@@ -13,7 +13,7 @@ const { execFile } = require('child_process');
 const PORT = parseInt(process.env.PORT || "7860", 10);
 const PUBLIC_DIR = path.join(__dirname, 'dashboard');
 
-const AIVEN_URI = process.env.DATABASE_URL || "postgres://avnadmin:YOUR_PASSWORD@aidlydbpg-aidlly23-infoaidtech.a.aivencloud.com:12656/rizondw?sslmode=require";
+const AIVEN_URI = process.env.DATABASE_URL || "postgres://avnadmin:AVNS_DxFVsIyjx9okN5LVt2h@aidlydbpg-aidlly23-infoaidtech.a.aivencloud.com:12656/rizondw?sslmode=require";
 const PSQL_PATH = process.env.PSQL_PATH || (process.platform === 'win32' ? "C:\\Program Files\\PostgreSQL\\17\\bin\\psql.exe" : "psql");
 
 function fetchLiveUnifiedData(region = 'ALL') {

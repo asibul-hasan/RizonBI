@@ -32,13 +32,13 @@ DB_PATH = os.path.join(os.path.dirname(__file__), "..", "warehouse", "datawareho
 # Aiven Cloud PostgreSQL Connection Details
 AIVEN_URI = os.getenv(
     "DATABASE_URL",
-    "postgres://avnadmin:YOUR_PASSWORD@aidlydbpg-aidlly23-infoaidtech.a.aivencloud.com:12656/rizondw?sslmode=require"
+    "postgres://avnadmin:AVNS_DxFVsIyjx9okN5LVt2h@aidlydbpg-aidlly23-infoaidtech.a.aivencloud.com:12656/rizondw?sslmode=require"
 )
 PG_HOST = os.getenv("DB_HOST", os.getenv("PGHOST", "aidlydbpg-aidlly23-infoaidtech.a.aivencloud.com"))
 PG_PORT = os.getenv("DB_PORT", os.getenv("PGPORT", "12656"))
 PG_NAME = os.getenv("DB_NAME", os.getenv("PGDATABASE", "rizondw"))
 PG_USER = os.getenv("DB_USER", os.getenv("PGUSER", "avnadmin"))
-PG_PASS = os.getenv("DB_PASSWORD", os.getenv("PGPASSWORD", "YOUR_PASSWORD"))
+PG_PASS = os.getenv("DB_PASSWORD", os.getenv("PGPASSWORD", "AVNS_DxFVsIyjx9okN5LVt2h"))
 
 
 @st.cache_data(ttl=5)

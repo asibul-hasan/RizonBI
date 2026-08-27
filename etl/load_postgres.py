@@ -21,13 +21,13 @@ logger = logging.getLogger("PostgresETL")
 # Connection Configuration (Aiven Managed PostgreSQL)
 AIVEN_URI = os.getenv(
     "DATABASE_URL",
-    "postgres://avnadmin:YOUR_PASSWORD@aidlydbpg-aidlly23-infoaidtech.a.aivencloud.com:12656/rizondw?sslmode=require"
+    "postgres://avnadmin:AVNS_DxFVsIyjx9okN5LVt2h@aidlydbpg-aidlly23-infoaidtech.a.aivencloud.com:12656/rizondw?sslmode=require"
 )
 PG_HOST = os.getenv("PGHOST", "aidlydbpg-aidlly23-infoaidtech.a.aivencloud.com")
 PG_PORT = os.getenv("PGPORT", "12656")
 PG_DATABASE = os.getenv("PGDATABASE", "rizondw")
 PG_USER = os.getenv("PGUSER", "avnadmin")
-PG_PASSWORD = os.getenv("PGPASSWORD", "YOUR_PASSWORD")
+PG_PASSWORD = os.getenv("PGPASSWORD", "AVNS_DxFVsIyjx9okN5LVt2h")
 
 
 def get_postgres_connection():
