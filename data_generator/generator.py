@@ -287,6 +287,7 @@ class SMEDataGenerator:
             for dept in DEPARTMENTS:
                 dept_emps = [e for e in self.employees if e["department"] == dept and e["is_active"] == 1]
                 headcount = len(dept_emps)
+                # Developer note: Safeguard against zero-headcount division for newly formed departments
                 avg_salary = round(sum(e["salary"] for e in dept_emps) / max(headcount, 1), 2)
                 avg_perf = round(sum(e["performance_score"] for e in dept_emps) / max(headcount, 1), 2)
                 training_hours = round(random.uniform(15, 60) * headcount, 1)
@@ -304,7 +305,8 @@ class SMEDataGenerator:
                     "turnover_rate": turnover_rate
                 })
                 record_id += 1
-            # Advance 1 month
+            
+            # Month transition handling: rollover year on December to avoid invalid 13th month
             next_month = curr_dt.month + 1 if curr_dt.month < 12 else 1
             next_year = curr_dt.year if curr_dt.month < 12 else curr_dt.year + 1
             curr_dt = curr_dt.replace(year=next_year, month=next_month, day=1)
