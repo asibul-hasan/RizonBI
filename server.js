@@ -139,17 +139,20 @@ function fetchLiveUnifiedData(region = 'ALL') {
             )
         );`;
 
+        const startTime = Date.now();
         execFile(PSQL_PATH, [AIVEN_URI, '-t', '-A', '-c', sql], { maxBuffer: 1024 * 1024 * 10 }, (err, stdout, stderr) => {
+            const durationMs = Date.now() - startTime;
             if (err) {
-                console.error("PostgreSQL Query Error:", stderr || err.message);
+                console.error(`[ERROR] [DB] Query failed after ${durationMs}ms:`, stderr || err.message);
                 return reject(err);
             }
             try {
                 const cleaned = stdout.trim();
                 const parsed = JSON.parse(cleaned);
+                console.log(`[INFO] [DB] Unified live query executed in ${durationMs}ms (Region: ${region})`);
                 resolve(parsed || {});
             } catch (pErr) {
-                console.error("JSON parse error:", pErr);
+                console.error(`[ERROR] [JSON] Parse error after ${durationMs}ms:`, pErr.message);
                 reject(pErr);
             }
         });
@@ -174,11 +177,13 @@ const server = http.createServer(async (req, res) => {
         const region = parsedUrl.searchParams.get('region') || 'ALL';
 
         try {
+            const reqStart = Date.now();
             const data = await fetchLiveUnifiedData(region);
             data.currentRole = role;
             data.currentRegion = region;
             data.source = "Aiven Cloud PostgreSQL 17.11 (rizondw)";
             data.timestamp = new Date().toISOString();
+            data.serverLatencyMs = Date.now() - reqStart;
 
             res.writeHead(200, {
                 'Content-Type': 'application/json',
@@ -186,8 +191,9 @@ const server = http.createServer(async (req, res) => {
             });
             res.end(JSON.stringify(data));
         } catch (err) {
+            console.error(`[ERROR] [HTTP 500] API handler failure:`, err.message);
             res.writeHead(500, { 'Content-Type': 'application/json' });
-            res.end(JSON.stringify({ error: err.message }));
+            res.end(JSON.stringify({ error: err.message, timestamp: new Date().toISOString() }));
         }
         return;
     }
